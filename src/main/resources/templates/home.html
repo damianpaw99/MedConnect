@@ -1,0 +1,57 @@
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Strona główna</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" type="img/png" href="img/logo.png" />
+  <link rel="stylesheet" href="css/bootstrap.css">
+
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="home.html">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="home.html">Strona główna
+                <span class="visually-hidden">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="log_form.html">Logowanie</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="registration_form_doctor.html">Zarejestruj lekarza jako administrator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="registration_form_staff.html">Zarejestruj personel jako administrator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/patient/registration">Zarejestruj pacjenta</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+  <p th:text="${date}"></p>
+  </main>
+
+</body>
+
+</html>
