@@ -3,6 +3,7 @@ package edu.ib.object;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class EmployeeDto {
 
     private String hashedPassword;
 
-    @ManyToOne
+    @OneToMany
     private Set<Appointment> appointments;
 
     public EmployeeDto() {
