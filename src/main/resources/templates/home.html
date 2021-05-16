@@ -8,8 +8,8 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" type="img/png" href="img/logo.png" />
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 
 </head>
 
@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="home.html">Strona główna
+              <a class="nav-link active" href="/home">Strona główna
                 <span class="visually-hidden">(current)</span>
               </a>
             </li>
@@ -34,10 +34,10 @@
               <a class="nav-link" href="log_form.html">Logowanie</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="registration_form_doctor.html">Zarejestruj lekarza jako administrator</a>
+              <a class="nav-link" href="/doctor/admin/registration">Zarejestruj lekarza jako administrator</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="registration_form_staff.html">Zarejestruj personel jako administrator</a>
+              <a class="nav-link" href="/employee/admin/registration">Zarejestruj personel jako administrator</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/patient/registration">Zarejestruj pacjenta</a>

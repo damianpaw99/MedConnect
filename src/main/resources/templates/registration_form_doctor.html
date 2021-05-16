@@ -1,4 +1,4 @@
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
@@ -8,15 +8,15 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" type="img/png" href="../static/img/logo.png" />
-  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 
 </head>
 <body>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="home.html">Navbar</a>
+      <a class="navbar-brand" href="/home">Navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -24,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" href="home.html">Strona główna
+            <a class="nav-link" href="/home">Strona główna
               <span class="visually-hidden">(current)</span>
             </a>
           </li>
@@ -32,13 +32,13 @@
             <a class="nav-link" href="log_form.html">Logowanie</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="registration_form_doctor.html">Zarejestruj lekarza jako administrator</a>
+            <a class="nav-link active" href="/doctor/admin/registration">Zarejestruj lekarza jako administrator</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="registration_form_staff.html">Zarejestruj personel jako administrator</a>
+            <a class="nav-link" href="/employee/admin/registration">Zarejestruj personel jako administrator</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="registration_form_patient.html">Zarejestruj pacjenta</a>
+            <a class="nav-link" href="/patient/registration">Zarejestruj pacjenta</a>
           </li>
         </ul>
       </div>
@@ -48,45 +48,42 @@
 <main>
     <div class="jumbotron">
         <div class="container">
-          <form>
+          <form action="#" th:action="@{/doctor/admin/registration}" th:object="${doctor}" method="post">
             <fieldset>
               <legend style="margin-top: 2.5em">Wprowadź dane rejestrowanego lekarza</legend>
 
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputPESEL">PESEL</label>
-                <input type="text" class="form-control" placeholder="Wprowadź PESEL" id="inputPESEL" name="inputPESEL">
+                <input type="text" class="form-control" placeholder="Wprowadź PESEL" id="inputPESEL" name="inputPESEL" th:field="*{pesel}">
               </div>
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputName">Imię</label>
-                <input type="text" class="form-control" placeholder="Wprowadź imię" id="inputName" name="inputName">
+                <input type="text" class="form-control" placeholder="Wprowadź imię" id="inputName" name="inputName" th:field="*{name}">
               </div>
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputSurname">Nazwisko</label>
-                <input type="text" class="form-control" placeholder="Wprowadź nazwisko" id="inputSurname" name="inputSurname">
+                <input type="text" class="form-control" placeholder="Wprowadź nazwisko" id="inputSurname" name="inputSurname" th:field="*{surname}">
               </div>
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputBirth">Data urodzenia</label>
-                <input type="date" class="form-control" placeholder="Wprowadź datę urodzenia" id="inputBirth" name="inputBirth">
+                <input type="date" class="form-control" placeholder="Wprowadź datę urodzenia" id="inputBirth" name="inputBirth" th:field="*{dateOfBirth}">
               </div>
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputPhone">Numer telefonu</label>
-                <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" class="form-control" placeholder="Wprowadź numer telefonu" id="inputPhone" name="inputphone">
+                <input type="number" pattern="[0-9]{9}" class="form-control" placeholder="Wprowadź numer telefonu" id="inputPhone" name="inputphone" th:field="*{phoneNumber}">
               </div>
               <div class="form-group">
                 <label for="inputEmail" class="form-label mt-4">Email</label>
-                <input type="email" class="form-control" placeholder="Wprowadź email" id="inputEmail" name="inputEmail">
+                <input type="email" class="form-control" placeholder="Wprowadź email" id="inputEmail" name="inputEmail" th:field="*{email}">
               </div>
               <div class="form-group">
                 <label for="inputPassword" class="form-label mt-4">Hasło</label>
-                <input type="password" class="form-control" placeholder="Wprowadź hasło" id="inputPassword" name="inputPassword">
+                <input type="password" class="form-control" placeholder="Wprowadź hasło" id="inputPassword" name="inputPassword" th:field="*{password}">
               </div>
-              <div class="form-group">
-                <label for="inputCheckingPassword" class="form-label mt-4">Powtórz hasło</label>
-                <input type="password" class="form-control" placeholder="Wprowadź ponownie hasło" id="inputCheckingPassword" name="inputCheckingPassword">
-              </div>
+
               <div class="form-group">
                 <label class="col-form-label mt-4" for="inputSpec">Specjalizacja</label>
-                <input type="text" class="form-control" placeholder="Wprowadź nazwę specjalizacji" id="inputSpec " name="inputSpec">
+                <input type="text" class="form-control" placeholder="Wprowadź nazwę specjalizacji" id="inputSpec" name="inputSpec" th:field="*{specializations}">
               </div>
               <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -1,5 +1,7 @@
 package edu.ib.object;
 
+import edu.ib.object.doctor.DoctorDto;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ public class Specialization {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "specializations")
     private Set<DoctorDto> doctor;
 
     public Specialization() {

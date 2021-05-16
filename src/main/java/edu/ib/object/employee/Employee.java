@@ -1,47 +1,38 @@
-package edu.ib.object;
+package edu.ib.object.employee;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Column;
 import java.time.LocalDate;
-import java.util.Set;
 
-@Entity
-public class PatientDto {
+public class Employee {
 
-    @Id
     private Long pesel;
 
     private String name;
 
     private String surname;
 
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     private Integer phoneNumber;
 
     private String email;
 
-    private String hashedPassword;
+    private String position;
 
-    @OneToMany
-    private Set<Appointment> appointments;
+    private String password;
 
-    @OneToMany
-    private Set<Result> results;
-
-
-    public PatientDto() {
+    public Employee() {
     }
 
-    public PatientDto(Long pesel, String name, String surname, LocalDate dateOfBirth, Integer phoneNumber, String email, String hashedPassword) {
+    public Employee(Long pesel, String name, String surname, String dateOfBirth, Integer phoneNumber, String email, String position, String password) {
         this.pesel = pesel;
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.position = position;
+        this.password = password;
     }
 
     public Long getPesel() {
@@ -68,11 +59,11 @@ public class PatientDto {
         this.surname = surname;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -92,27 +83,19 @@ public class PatientDto {
         this.email = email;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPosition() {
+        return position;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
-    public Set<Appointment> getAppointments() {
-        return appointments;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public Set<Result> getResults() {
-        return results;
-    }
-
-    public void setResults(Set<Result> results) {
-        this.results = results;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

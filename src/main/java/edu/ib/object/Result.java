@@ -1,9 +1,11 @@
 package edu.ib.object;
 
+import edu.ib.object.patient.PatientDto;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="results")
 public class Result {
 
     @Id
@@ -11,12 +13,15 @@ public class Result {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name="patient_pesel")
     private PatientDto patient;
 
     private String type;
 
+    @Column(name="photos")
     private String photo;
 
+    @Column(name="insert_date")
     private LocalDateTime time;
 
     private String description;
