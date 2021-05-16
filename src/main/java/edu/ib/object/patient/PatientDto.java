@@ -1,14 +1,17 @@
-package edu.ib.object;
+package edu.ib.object.patient;
 
+import edu.ib.object.Appointment;
+import edu.ib.object.Result;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-public class EmployeeDto {
+@Entity(name="patients")
+public class PatientDto {
 
     @Id
     private Long pesel;
@@ -17,39 +20,35 @@ public class EmployeeDto {
 
     private String surname;
 
+    @Column(name="birth_date")
     private LocalDate dateOfBirth;
 
+    @Column(name="phone")
     private Integer phoneNumber;
 
     private String email;
 
-    private String position;
-
+    @Column(name="password")
     private String hashedPassword;
 
-    @OneToMany
+    @OneToMany(mappedBy="patient")
     private Set<Appointment> appointments;
 
-    public EmployeeDto() {
+    @OneToMany(mappedBy="patient")
+    private Set<Result> results;
+
+
+    public PatientDto() {
     }
 
-    public EmployeeDto(Long pesel, String name, String surname, LocalDate dateOfBirth, Integer phoneNumber, String email, String position, String hashedPassword) {
+    public PatientDto(Long pesel, String name, String surname, LocalDate dateOfBirth, Integer phoneNumber, String email, String hashedPassword) {
         this.pesel = pesel;
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.position = position;
         this.hashedPassword = hashedPassword;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public Long getPesel() {
@@ -114,5 +113,13 @@ public class EmployeeDto {
 
     public void setAppointments(Set<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public Set<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<Result> results) {
+        this.results = results;
     }
 }

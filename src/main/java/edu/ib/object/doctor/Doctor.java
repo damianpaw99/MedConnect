@@ -1,47 +1,36 @@
-package edu.ib.object;
+package edu.ib.object.doctor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.Set;
 
-@Entity
-public class DoctorDto {
+public class Doctor {
 
-    @Id
     private Long pesel;
 
     private String name;
 
     private String surname;
 
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     private Integer phoneNumber;
 
     private String email;
 
-    private String hashedPassword;
+    private String password;
 
-    @ManyToMany
-    private Set<Specialization> specializations;
+    private String specializations;
 
-    @OneToMany
-    private Set<Appointment> appointments;
-
-    public DoctorDto() {
+    public Doctor() {
     }
 
-    public DoctorDto(Long pesel, String name, String surname, LocalDate dateOfBirth, Integer phoneNumber, String email, String hashedPassword) {
+    public Doctor(Long pesel, String name, String surname, String dateOfBirth, Integer phoneNumber, String email, String password) {
         this.pesel = pesel;
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
     }
 
     public Long getPesel() {
@@ -68,11 +57,11 @@ public class DoctorDto {
         this.surname = surname;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -92,27 +81,19 @@ public class DoctorDto {
         this.email = email;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Set<Specialization> getSpecializations() {
+    public String getSpecializations() {
         return specializations;
     }
 
-    public void setSpecializations(Set<Specialization> specializations) {
+    public void setSpecializations(String specializations) {
         this.specializations = specializations;
-    }
-
-    public Set<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
     }
 }

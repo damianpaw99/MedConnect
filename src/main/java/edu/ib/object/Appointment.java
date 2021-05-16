@@ -1,24 +1,32 @@
 package edu.ib.object;
 
+import edu.ib.object.doctor.DoctorDto;
+import edu.ib.object.employee.EmployeeDto;
+import edu.ib.object.patient.PatientDto;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="appointments")
 public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name="patient_pesel")
     private PatientDto patient;
 
     @ManyToOne
+    @JoinColumn(name="doctor_pesel")
     private DoctorDto doctor;
 
     @ManyToOne
+    @JoinColumn(name="worker_pesel")
     private EmployeeDto employee;
 
+    @Column(name="date_godzina")
     private LocalDateTime dateTime;
 
     public Appointment() {

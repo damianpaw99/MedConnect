@@ -21,8 +21,5 @@ public class MainController {
         return "home";
     }
 
-    @GetMapping("patient/registration")
-    public String getPatientRegistration(Model model){
-        return "registration_form_patient";
-    }
+
 }
