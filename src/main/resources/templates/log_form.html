@@ -1,4 +1,4 @@
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
@@ -8,8 +8,8 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" type="img/png" href="../static/img/logo.png" />
-  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 
 </head>
 
@@ -18,7 +18,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="home.html">Navbar</a>
+        <a class="navbar-brand" href="/home">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,21 +26,21 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="home.html">Strona główna
+              <a class="nav-link" href="/home">Strona główna
                 <span class="visually-hidden">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="log_form.html">Logowanie</a>
+              <a class="nav-link active" href="/login">Logowanie</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="registration_form_doctor.html">Zarejestruj lekarza jako administrator</a>
+              <a class="nav-link" href="/doctor/admin/registration">Zarejestruj lekarza jako administrator</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="registration_form_staff.html">Zarejestruj personel jako administrator</a>
+              <a class="nav-link" href="/employee/admin/registration">Zarejestruj personel jako administrator</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="registration_form_patient.html">Zarejestruj pacjenta</a>
+              <a class="nav-link" href="/patient/registration">Zarejestruj pacjenta</a>
             </li>
           </ul>
         </div>
@@ -52,20 +52,19 @@
     <div class="split left">
       <div class="container">
         <div class="centered">
-          <form action="LoginServlet" method="post">
+          <form action="#" th:action="@{/login}" th:object="${logger}" method="post">
 
             <h3 style="margin-top: 2.5em">Logowanie</h3>
 
             <div class="form-group">
               <label for="login">Login</label>
-              <input type="text" class="form-control" name="loginInput" id="login" placeholder="Wprowadź login">
+              <input type="text" class="form-control" name="loginInput" id="login" placeholder="Wprowadź login" th:field="*{login}">
             </div>
             <div class="form-group">
               <label for="password">Hasło</label>
-              <input type="password" class="form-control" name="passwordInput" id="password" placeholder="Wprowadź hasło">
+              <input type="password" class="form-control" name="passwordInput" id="password" placeholder="Wprowadź hasło" th:field="*{password}">
             </div>
-
-            <p class="text-danger">Błąd logowania</p>
+            <p th:text="${loginError}"></p>
             <div class="d-grid gap-2">
               <button class="btn btn-lg btn-primary" type="submit">Zaloguj</button>
             </div>
@@ -80,7 +79,7 @@
       <div class="container">
         <div class="centered">
           <h5 class="text-warning">Nie masz konta? Zarejestruj się.</h5>
-          <form action="registration_form_patient.jsp" method="get">
+          <form action="#" th:action="@{/patient/registration}" method="get">
             <div class="d-grid gap-2">
               <button class="btn btn-lg btn-primary" type="submit">Załóż konto</button>
             </div>
