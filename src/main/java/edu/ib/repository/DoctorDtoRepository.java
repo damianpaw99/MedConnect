@@ -18,4 +18,6 @@ public interface DoctorDtoRepository extends CrudRepository<DoctorDto,Long> {
     @Procedure(procedureName = "assign_spec_to_doctor")
     void addSpecToDoctor(@Param("pesel") Long doctorPesel,@Param("spec_name")String specName);
 
+    @Procedure(procedureName="change_doctor_password")
+    void changePassword(@Param("peselinput") Long doctorPesel,@Param("hashedpassword") String newPassword);
 }
