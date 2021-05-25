@@ -54,6 +54,20 @@ public class LogInService {
 
     }
 
+    public String getUserEmailById(Long id){
+        String email=null;
+        if(patientDtoRepository.findById(id).isPresent()) email=patientDtoRepository.findById(id).get().getEmail();
+        if(doctorDtoRepository.findById(id).isPresent()) email=doctorDtoRepository.findById(id).get().getEmail();
+        if(employeeDtoRepository.findById(id).isPresent()) email=employeeDtoRepository.findById(id).get().getEmail();
+        return email;
+    }
+
+    public void changePassword(Long id, String hashedPassword){
+        patientDtoRepository.changePassword(id,hashedPassword);
+        doctorDtoRepository.changePassword(id,hashedPassword);
+        employeeDtoRepository.changePassword(id,hashedPassword);
+    }
+
     private String testDoctor(Long login, String password){
         Optional<DoctorDto> doctor=doctorDtoRepository.findById(login);
         String output=null;
