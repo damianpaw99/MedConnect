@@ -66,6 +66,14 @@ CREATE TABLE IF NOT EXISTS results (
 	FOREIGN KEY (patient_pesel) REFERENCES patients(pesel)
 );
 
+CREATE TABLE IF NOT EXISTS login_logs(
+	id serial PRIMARY KEY,
+    pesel BIGINT NOT NULL,
+    ip VARCHAR(50) NOT NULL,
+    date_of_action TIMESTAMP NOT NULL,
+    success BOOLEAN NOT NULL
+);
+
 
 CREATE PROCEDURE add_patient(
 	pesel BIGINT,

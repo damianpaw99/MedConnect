@@ -3,12 +3,14 @@ package edu.ib.controller;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import edu.ib.email.EmailServiceImpl;
+import edu.ib.object.LoginLogs;
 import edu.ib.otherModels.NewPasswordModel;
 import edu.ib.otherModels.PasswordResetModel;
 import edu.ib.security.Logger;
 import edu.ib.security.LoginPasswordException;
 import edu.ib.security.PasswordEncoderConfig;
 import edu.ib.service.LogInService;
+import edu.ib.service.LoginLogsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -26,9 +28,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Controller
@@ -36,11 +40,13 @@ public class LoginController {
 
     private LogInService logInService;
     private EmailServiceImpl emailService;
+    private LoginLogsService loginLogsService;
 
     @Autowired
-    public LoginController(LogInService logInService,EmailServiceImpl emailService) {
+    public LoginController(LogInService logInService,EmailServiceImpl emailService,LoginLogsService loginLogsService) {
         this.logInService = logInService;
         this.emailService=emailService;
+        this.loginLogsService=loginLogsService;
     }
 
     @GetMapping("/login")
@@ -51,13 +57,21 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String login(@ModelAttribute Logger logger, Model model, HttpServletResponse response){
+    public String login(@ModelAttribute Logger logger, Model model, HttpServletRequest request, HttpServletResponse response){
         String token=null;
+        LoginLogs logs=new LoginLogs();
+        logs.setIp(request.getRemoteAddr());
+        logs.setPesel(Long.parseLong(logger.getLogin()));
+        logs.setTimestamp(LocalDateTime.now());
         try {
             token = logInService.loginUser(Long.parseLong(logger.getLogin()), logger.getPassword());
-        } catch(LoginPasswordException | NumberFormatException e ){
+            logs.setSuccess(true);
+            loginLogsService.addLog(logs);
+        } catch(LoginPasswordException | NumberFormatException e ) {
             model.addAttribute("logger", new Logger());
-            model.addAttribute("loginError","Błędny login lub hasło");
+            model.addAttribute("loginError", "Błędny login lub hasło");
+            logs.setSuccess(false);
+            loginLogsService.addLog(logs);
             return "log_form";
         }
         Cookie cookie=new Cookie("token",token);
