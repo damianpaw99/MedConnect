@@ -121,4 +121,5 @@ public class LoginController {
         logInService.changePassword(pesel,encoder.encode(passwordReset.getNewPassword()));
         return "redirect:/home";
     }
+
 }
