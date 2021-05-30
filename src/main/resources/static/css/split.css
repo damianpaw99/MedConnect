@@ -2,8 +2,6 @@
     height: 100%;
     width: 50%;
     position: fixed;
-    top: 0;
-
 }
 
 .left {
@@ -16,13 +14,14 @@
 
 .centered {
     position: absolute;
-    top: 50%;
+    top: 40%;
     width: 50%;
     transform: translate(-50%, -50%);
 }
 
 .vl {
+    top: 53%;
     left: 75%;
     border-left: 1px solid gray;
-    height: 70%;
+    height: 80%;
 }
