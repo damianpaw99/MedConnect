@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MedConnect: Resetowanie hasła</title>
+    <title>MedConnect: Pracownik</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -11,8 +11,8 @@
     <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
-
 <body>
+
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -39,7 +39,7 @@
                         <a class="nav-link" href="#">Lekarz</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pracownik</a>
+                        <a class="nav-link active" href="#">Pracownik</a>
                     </li>
                 </ul>
                 <form th:action="@{/logout}" method="get" class="d-flex">
@@ -53,23 +53,12 @@
 </header>
 
 <main>
-    <div class="container" style="margin-bottom: 50px">
-        <form action="#" th:action="@{/passwordReset}" th:object="${passwordModel}" method="post">
-            <fieldset>
-                <legend style="margin-top: 1.5em">Resetowanie hasła</legend>
-
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="login">Pesel</label>
-                    <input type="text" class="form-control" name="loginInput" id="login" placeholder="Wprowadź login"
-                           th:field="*{pesel}">
-                </div>
-
-                <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
-                    <button class="btn btn-lg btn-primary" type="submit">Zresetuj hasło</button>
-                </div>
-            </fieldset>
-        </form>
+    <div class="d-grid gap-2">
+        <button class="btn btn-lg btn-primary" type="button">Block button</button>
+        <button class="btn btn-lg btn-primary" type="button">Block button</button>
+        <button class="btn btn-lg btn-primary" type="button">Block button</button>
     </div>
 </main>
+
 </body>
 </html>
