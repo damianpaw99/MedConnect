@@ -12,6 +12,7 @@ import edu.ib.security.PasswordEncoderConfig;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class LogInService {
     private DoctorDtoRepository doctorDtoRepository;
     private EmployeeDtoRepository employeeDtoRepository;
     private PatientDtoRepository patientDtoRepository;
+
+    @Value("${jwt.login.token.key}")
+    private String signingKey;
 
     @Autowired
     public LogInService(DoctorDtoRepository doctorDtoRepository, EmployeeDtoRepository employeeDtoRepository, PatientDtoRepository patientDtoRepository) {
@@ -48,8 +52,8 @@ public class LogInService {
                 .setSubject(String.valueOf(login))
                 .claim("role",role)
                 .setIssuedAt(new Date(millis))
-                .setExpiration(new Date(millis+1000*60*15))
-                .signWith(SignatureAlgorithm.HS512,"z3gHeX23")
+                .setExpiration(new Date(millis+1000*60*60))
+                .signWith(SignatureAlgorithm.HS512,signingKey)
                 .compact();
 
     }

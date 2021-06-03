@@ -1,5 +1,6 @@
 package edu.ib.email;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,10 @@ import java.util.Properties;
 @Configuration
 public class EmailSender {
 
+    @Value("${spring.mail.password}")
+    private String pass;
+
+
     @Bean
     public JavaMailSender getJavaMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -17,7 +22,7 @@ public class EmailSender {
         mailSender.setPort(587);
 
         mailSender.setUsername("noreplymedconnect@gmail.com");
-        mailSender.setPassword("p38AzkL!");
+        mailSender.setPassword(pass);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

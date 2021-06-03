@@ -1,6 +1,6 @@
 package edu.ib.object.employee;
 
-import edu.ib.object.Appointment;
+import edu.ib.object.appointment.Appointment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ public class EmployeeDto {
     @Column(name="password")
     private String hashedPassword;
 
-    @OneToMany
+    @OneToMany(mappedBy = "employee")
     private Set<Appointment> appointments;
 
     public EmployeeDto() {

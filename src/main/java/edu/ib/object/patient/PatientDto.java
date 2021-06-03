@@ -1,6 +1,6 @@
 package edu.ib.object.patient;
 
-import edu.ib.object.Appointment;
+import edu.ib.object.appointment.Appointment;
 import edu.ib.object.Result;
 
 import javax.persistence.Column;

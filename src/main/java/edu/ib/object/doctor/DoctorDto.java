@@ -1,6 +1,6 @@
 package edu.ib.object.doctor;
 
-import edu.ib.object.Appointment;
+import edu.ib.object.appointment.Appointment;
 import edu.ib.object.Specialization;
 
 import javax.persistence.*;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>MedConnect: Pracownik</title>
@@ -26,23 +26,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/home">Strona główna</a>
                     </li>
-                    <li class="nav-item">
+                    <li th:if="${role}==null" class="nav-item">
                         <a class="nav-link" href="/login">Logowanie</a>
                     </li>
-                    <li class="nav-item">
+                    <li th:if="${role}==null" class="nav-item">
                         <a class="nav-link" href="/patient/registration">Rejestracja</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pacjent</a>
+                    <li th:if="${role}=='PATIENT'" class="nav-item">
+                        <a class="nav-link" href="/patient/menu">Pacjent</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Lekarz</a>
+                    <li th:if="${role}=='DOCTOR'" class="nav-item">
+                        <a class="nav-link" href="/doctor/menu">Lekarz</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Pracownik</a>
+                    <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
+                        <a class="nav-link active" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="get" class="d-flex">
+                <form th:if="${role}!=null" th:action="@{/logout}" method="get" class="d-flex">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
                             onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
                     </button>
@@ -55,9 +55,18 @@
 <main>
     <div class="container d-flex justify-content-center" style="position: absolute; margin: 50px; top: 30%">
     <div class="d-grid gap-2">
-        <button class="btn btn-primary" type="button" style="width: 500px">Stwórz grafik</button>
-        <button class="btn btn-primary" type="button" style="width: 500px">Utwórz konto lekarza</button>
-        <button class="btn btn-primary" type="button" style="width: 500px">Utwórz konto pracownika</button>
+        <form action="#" th:action="@{/employee/admin/createAppointments}">
+            <button class="btn btn-primary" type="submit" style="width: 500px">Stwórz grafik</button>
+        </form>
+        <form action="#" th:action="@{/employee/admin/allAppointments}">
+            <button class="btn btn-primary" type="submit" style="width: 500px">Wszystkie wizyty</button>
+        </form>
+        <form action="#" th:action="@{/doctor/admin/registration}">
+            <button class="btn btn-primary" type="submit" style="width: 500px">Utwórz konto lekarza</button>
+        </form>
+        <form action="#" th:action="@{/employee/admin/registration}">
+            <button class="btn btn-primary" type="submit" style="width: 500px">Utwórz konto pracownika</button>
+        </form>
     </div>
     </div>
 </main>

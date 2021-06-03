@@ -28,23 +28,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/home">Strona główna</a>
                     </li>
-                    <li class="nav-item">
+                    <li th:if="${role}==null" class="nav-item">
                         <a class="nav-link" href="/login">Logowanie</a>
                     </li>
-                    <li class="nav-item">
+                    <li th:if="${role}==null" class="nav-item">
                         <a class="nav-link" href="/patient/registration">Rejestracja</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pacjent</a>
+                    <li th:if="${role}=='PATIENT'" class="nav-item">
+                        <a class="nav-link" href="/patient/menu">Pacjent</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Lekarz</a>
+                    <li th:if="${role}=='DOCTOR'" class="nav-item">
+                        <a class="nav-link" href="/doctor/menu">Lekarz</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pracownik</a>
+                    <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
+                        <a class="nav-link active" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="get" class="d-flex">
+                <form th:if="${role}!=null" th:action="@{/logout}" method="get" class="d-flex">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
                             onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
                     </button>
@@ -56,58 +56,68 @@
 
 <main>
     <div class="container" style="margin-bottom: 50px">
-        <form action="#" method="post">
+        <form action="#" th:action="@{/employee/admin/createAppointments}" th:object="${timetable}" method="post">
             <fieldset>
                 <legend style="margin-top: 1.5em">Zaplanuj grafik pracy lekarza</legend>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputPESEL">PESEL lekarza</label>
                     <input type="number" class="form-control" placeholder="Wprowadź PESEL" id="inputPESEL"
-                           name="inputPESEL">
+                           name="inputPESEL" th:field="*{doctorPesel}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputStartDate">Data początkowa</label>
                     <input type="date" class="form-control" placeholder="Wprowadź datę początkową okresu pracy"
-                           id="inputStartDate" name="startDate">
+                           id="inputStartDate" name="startDate" th:field="*{startDate}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputEndDate">Data końcowa</label>
                     <input type="date" class="form-control" placeholder="Wprowadź datę końcową okresu pracy"
-                           id="inputEndDate" name="endDate">
+                           id="inputEndDate" name="endDate" th:field="*{endDate}">
                 </div>
-                <label class="col-form-label mt-4" for="inputEndDate">Dni przyjęć</label>
-                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%">
-                    <input type="checkbox" class="btn-check" id="monday" checked="" autocomplete="off">
-                    <label class="btn btn-primary" for="monday">Poniedziałek</label>
-                    <input type="checkbox" class="btn-check" id="tuesday" autocomplete="off">
-                    <label class="btn btn-primary" for="tuesday">Wtorek</label>
-                    <input type="checkbox" class="btn-check" id="wednesday" autocomplete="off">
-                    <label class="btn btn-primary" for="wednesday">Środa</label>
-                    <input type="checkbox" class="btn-check" id="thursday" autocomplete="off">
-                    <label class="btn btn-primary" for="thursday">Czwartek</label>
-                    <input type="checkbox" class="btn-check" id="friday" autocomplete="off">
-                    <label class="btn btn-primary" for="friday">Piątek</label>
-                    <input type="checkbox" class="btn-check" id="saturday" autocomplete="off">
-                    <label class="btn btn-primary" for="saturday">Sobota</label>
-                    <input type="checkbox" class="btn-check" id="sunday" autocomplete="off">
-                    <label class="btn btn-primary" for="sunday">Niedziela</label>
-                </div>
+                <fieldset class="form-group">
+                    <legend class="mt-4">Dni przyjęć</legend>
+
+                        <input type="checkbox" class="form-check-input" id="monday" autocomplete="off"
+                               th:field="*{monday}">
+                        <label class="form-check-label" for="monday">Poniedziałek</label>
+
+                    <input type="checkbox" class="form-check-input" id="tuesday" autocomplete="off"
+                           th:field="*{tuesday}">
+                    <label class="form-check-label" for="tuesday">Wtorek</label>
+
+                        <input type="checkbox" class="form-check-input" id="wednesday" autocomplete="off"
+                               th:field="*{wednesday}">
+                        <label class="form-check-label" for="wednesday">Środa</label>
+
+                    <input type="checkbox" class="form-check-input" id="thursday" autocomplete="off"
+                           th:field="*{thursday}">
+                    <label class="form-check-label" for="thursday">Czwartek</label>
+                    <input type="checkbox" class="form-check-input" id="friday" autocomplete="off" th:field="*{friday}">
+                    <label class="form-check-label" for="friday">Piątek</label>
+                    <input type="checkbox" class="form-check-input" id="saturday" autocomplete="off"
+                           th:field="*{saturday}">
+                    <label class="form-check-label" for="saturday">Sobota</label>
+                    <input type="checkbox" class="form-check-input" id="sunday" autocomplete="off" th:field="*{sunday}">
+                    <label class="form-check-label" for="sunday">Niedziela</label>
+
+                </fieldset>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputStartTime">Godzina rozpoczecia pracy</label>
                     <input type="time" class="form-control" placeholder="Wprowadź godzinę rozpoczęcia pracy"
-                           id="inputStartTime" name="startTime">
+                           id="inputStartTime" name="startTime" th:field="*{startTime}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputEndTime">Godzina zakończenia pracy</label>
                     <input type="time" class="form-control" placeholder="Wprowadź godzinę rozpoczęcia pracy"
-                           id="inputEndTime" name="endTime">
+                           id="inputEndTime" name="endTime" th:field="*{endTime}">
                 </div>
                 <div class="form-group">
                     <label for="visitTime" class="form-label mt-4">Czas wizyty</label>
-                    <select class="form-select" id="visitTime">
-                        <option>10</option>
-                        <option>15</option>
-                        <option>20</option>
-                        <option>30</option>
+                    <select class="form-select" id="visitTime" th:field="*{timeBetween}">
+                        <option th:value="10">10</option>
+                        <option th:value="15">15</option>
+                        <option th:value="20">20</option>
+                        <option th:value="30">30</option>
                     </select>
                 </div>
 
