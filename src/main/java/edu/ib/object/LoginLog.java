@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="login_logs")
-public class LoginLogs {
+public class LoginLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +20,10 @@ public class LoginLogs {
 
     private boolean success;
 
-    public LoginLogs() {
+    public LoginLog() {
     }
 
-    public LoginLogs(Long pesel, String ip, LocalDateTime timestamp, boolean success) {
+    public LoginLog(Long pesel, String ip, LocalDateTime timestamp, boolean success) {
         this.pesel = pesel;
         this.ip = ip;
         this.timestamp = timestamp;

@@ -1,4 +1,4 @@
-package edu.ib.object;
+package edu.ib.object.appointment;
 
 import edu.ib.object.doctor.DoctorDto;
 import edu.ib.object.employee.EmployeeDto;
@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name="patient_pesel")
     private PatientDto patient;
 

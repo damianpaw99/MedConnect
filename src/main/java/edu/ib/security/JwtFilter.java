@@ -3,6 +3,7 @@ package edu.ib.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +23,9 @@ public class JwtFilter extends BasicAuthenticationFilter {
     public JwtFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
+
+    @Value("${jwt.login.token.key}")
+    private String signingKey;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -45,7 +49,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthorizationToken(String token) {
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey("z3gHeX23").parseClaimsJws(token);
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token);
 
         String role = claimsJws.getBody().get("role").toString();
         String username = claimsJws.getBody().getSubject();

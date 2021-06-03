@@ -1,7 +1,7 @@
 package edu.ib.service;
 
 
-import edu.ib.object.LoginLogs;
+import edu.ib.object.LoginLog;
 import edu.ib.repository.LoginLogsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class LoginLogsService {
         this.loginLogsRepository = loginLogsRepository;
     }
 
-    public void addLog(LoginLogs logs){
+    public void addLog(LoginLog logs){
         loginLogsRepository.save(logs);
     }
 }

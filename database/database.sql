@@ -157,7 +157,15 @@ AS $$
 UPDATE patients set password = hashedPassword WHERE pesel = peselInput;
 $$;
 
-CALL add_patient(92042128428, 'Anna', 'Nowak', '1979-01-03', 988816459, 'a.now@gmail.com', 'test_pass');
-CALL add_employee(68090151712, 'Jan', 'Kowalski', '1995-07-16', 477363937, 'j.kow@gmail.com', 'test_pass', 'recepcjonista');
-CALL add_doctor(68052794751, 'Dr', 'Oetker', '1987-12-01', 359606798, 'dr.oetker@gmail.com', 'test_pass');
-CALL assign_spec_to_doctor(68052794751, 'neurologia');
+CREATE VIEW free_appointments AS
+SELECT ap.id, ap.date_godzina,d.name,d.surname, string_agg(s.name,', ')  FROM appointments ap
+JOIN doctors d ON d.pesel=ap.doctor_pesel
+join doctors_specs ds ON ds.pesel=d.pesel
+join specs s on ds.id=s.id
+WHERE ap.patient_pesel is null and ap.date_godzina>now()
+GROUP BY ap.id, d.pesel;
+
+CREATE VIEW all_appointments AS
+SELECT ap.id, ap.date_godzina,d.name,d.surname FROM appointments ap
+JOIN doctors d ON d.pesel=ap.doctor_pesel
+ORDER BY ap.date_godzina DESC;
