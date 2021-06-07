@@ -47,40 +47,31 @@
                             onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
                     </button>
                 </form>
+
             </div>
         </div>
     </nav>
 </header>
-
 <main>
-    <div class="container d-flex justify-content-center" style="position: absolute; margin: 50px; top: 30%">
-    <div class="d-grid gap-2">
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/createAppointments}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Stwórz grafik</button>
-        </form>
-        <form th:if="${role}!=null" action="#" th:action="@{/employee/admin/allAppointments}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Wszystkie wizyty</button>
-        </form>
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/doctor/admin/registration}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Utwórz konto lekarza</button>
-        </form>
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/registration}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Utwórz konto pracownika</button>
-        </form>
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/allPatients}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Wszyscy pacjenci</button>
-        </form>
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/allDoctors}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Wszyscy lekarze</button>
-        </form>
-        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/allEmployees}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Wszyscy pracownicy</button>
-        </form>
-        <form action="#" th:action="@{/employee/editData}">
-            <button class="btn btn-primary" type="submit" style="width: 500px">Edytuj dane lub hasło</button>
-        </form>
-    </div>
-    </div>
+    <table class="table table-hover">
+        <tr>
+            <td>Pesel</td>
+            <td>Imię</td>
+            <td>Nazwisko</td>
+            <td>Edytuj</td>
+        </tr>
+        <tr th:each="doctor : ${doctorList}">
+            <td th:text="${doctor.pesel}"></td>
+            <td th:text="${doctor.name}"></td>
+            <td th:text="${doctor.surname}"></td>
+            <td>
+                <form action="#" th:action="@{/employee/admin/editDoctor/__${doctor.pesel}__}" th:method="get">
+                    <button type="submit" class="btn btn-info">Edytuj</button>
+                </form>
+            </td>
+        </tr>
+
+    </table>
 </main>
 
 </body>
