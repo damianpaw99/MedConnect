@@ -16,10 +16,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        .antMatchers("**/admin/**").hasRole("ADMIN")
 //        .antMatchers("/patient/registration").permitAll()
 //        .antMatchers("/patient/**").hasRole("PATIENT")
-//        .antMatchers("/reception/**").hasRole("RECEPTION")
-//        .antMatchers("/administrator/**").hasRole("ADMINISTRATOR")
+//        .antMatchers("/reception/**").hasRole("RECEPCJONISTA")
 //        .antMatchers("/doctor/**").hasRole("DOCTOR")
-//        .and().addFilter(new JwtFilter(authenticationManager())).httpBasic().and().csrf().disable().formLogin().disable();
+//        .and().addFilter(new JwtFilter(authenticationManager())).httpBasic().and().csrf().disable().formLogin().loginPage("/moveToLogin");
 
         http.authorizeRequests().antMatchers("/**").permitAll(); // do testów
     }

@@ -54,47 +54,51 @@
 
 <main>
     <div class="container" style="margin-bottom: 50px">
-        <form action="#" th:action="@{/employee/admin/edit_patient}" th:object="${employee}" method="post">
+        <form action="#" th:action="@{/patient/editData}" th:object="${patient}" th:method="patch">
             <fieldset>
                 <legend style="margin-top: 1.5em">Zmień wybrane dane</legend>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputPESEL">PESEL</label>
-                    <input type="number" class="form-control" placeholder="Wprowadź PESEL" id="inputPESEL"
-                           name="inputPESEL">
+                    <input type="number" class="form-control" readonly placeholder="Wprowadź PESEL" id="inputPESEL"
+                           th:field="*{pesel}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputName">Imię</label>
-                    <input type="text" class="form-control" placeholder="Wprowadź imię" id="inputName" name="inputName">
+                    <input type="text" class="form-control" readonly placeholder="Wprowadź imię" id="inputName" name="inputName"
+                           th:field="*{name}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputSurname">Nazwisko</label>
-                    <input type="text" class="form-control" placeholder="Wprowadź nazwisko" id="inputSurname"
-                           name="inputSurname">
+                    <input type="text" class="form-control" readonly placeholder="Wprowadź nazwisko" id="inputSurname"
+                           name="inputSurname" th:field="*{surname}">
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputBirth">Data urodzenia</label>
-                    <input type="date" class="form-control" placeholder="Wprowadź datę urodzenia" id="inputBirth"
-                           name="inputBirth">
+                    <input type="date" class="form-control" readonly placeholder="Wprowadź datę urodzenia" id="inputBirth"
+                           name="inputBirth" th:field="*{dateOfBirth}" >
                 </div>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="inputPhone">Numer telefonu</label>
                     <input type="number" pattern="[0-9]{9}" class="form-control" placeholder="Wprowadź numer telefonu"
-                           id="inputPhone" name="inputphone">
+                           id="inputPhone" name="inputphone" th:field="*{phoneNumber}" >
                 </div>
                 <div class="form-group">
                     <label for="inputEmail" class="form-label mt-4">Email</label>
                     <input type="email" class="form-control" placeholder="Wprowadź email" id="inputEmail"
-                           name="inputEmail">
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword" class="form-label mt-4">Hasło</label>
-                    <input type="password" class="form-control" placeholder="Wprowadź hasło" id="inputPassword"
-                           name="inputPassword">
+                           name="inputEmail" th:field="*{email}">
                 </div>
                 <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
                     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                 </div>
             </fieldset>
+        </form>
+        <form action="#" th:action="@{/patient/changePassword}" th:object="${logger}" th:method="put">
+            <label class="col-form-label mt-4" for="inputNewPassword">Nowe hasło</label>
+            <input type="password" class="form-control" placeholder="Wprowadź nowe hasło" id="inputNewPassword"
+                   name="inputBirth" th:field="*{password}" >
+            <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
+                <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            </div>
         </form>
     </div>
 </main>
