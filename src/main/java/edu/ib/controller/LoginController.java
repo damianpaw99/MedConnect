@@ -56,6 +56,10 @@ public class LoginController {
         return "log_form";
     }
 
+    @GetMapping("moveToLogin")
+    public String getLoginForm(){
+        return "redirect:/login";
+    }
 
     @PostMapping("/login")
     public String login(@ModelAttribute Logger logger, Model model, HttpServletRequest request, HttpServletResponse response){
@@ -148,4 +152,6 @@ public class LoginController {
         }
         model.addAttribute("role",role);
     }
+
+
 }

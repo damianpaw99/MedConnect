@@ -1,17 +1,16 @@
 package edu.ib.controller;
 
 import edu.ib.object.doctor.Doctor;
+import edu.ib.object.doctor.DoctorDto;
 import edu.ib.object.doctor.DoctorDtoBuilder;
 import edu.ib.security.DataTokenReader;
+import edu.ib.security.Logger;
 import edu.ib.service.DoctorDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -63,5 +62,53 @@ public class DoctorDtoController {
             }
         }
         model.addAttribute("role",role);
+    }
+
+    @GetMapping("/doctor/editData")
+    public String editData(Model model,HttpServletRequest request){
+        setRoleToModel(model,request);
+        Cookie[] cookies = request.getCookies();
+        Long pesel=null;
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    DataTokenReader reader=new DataTokenReader(signingKey);
+                    pesel = reader.readPesel(cookie.getValue());
+                    break;
+                }
+            }
+        }
+        DoctorDto doctorDto=doctorDtoService.getDoctorById(pesel).get();
+        Doctor doctor=new Doctor();
+        doctor.setPesel(doctorDto.getPesel());
+        doctor.setEmail(doctorDto.getEmail());
+        doctor.setPhoneNumber(doctorDto.getPhoneNumber());
+        doctor.setSurname(doctorDto.getSurname());
+        doctor.setName(doctorDto.getName());
+        doctor.setDateOfBirth(doctorDto.getDateOfBirth().toString());
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("logger",new Logger());
+        return "edit_doctor";
+    }
+    @PatchMapping("/doctor/editData")
+    public String editData(@ModelAttribute Doctor doctor){
+        doctorDtoService.editDoctor(doctor);
+        return "redirect:/doctor/menu";
+    }
+    @PutMapping("/doctor/editPassword")
+    public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Long pesel=null;
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    DataTokenReader reader=new DataTokenReader(signingKey);
+                    pesel = reader.readPesel(cookie.getValue());
+                    break;
+                }
+            }
+        }
+        doctorDtoService.changePassword(pesel,logger.getPassword());
+        return "redirect:/logout";
     }
 }
