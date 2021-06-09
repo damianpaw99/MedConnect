@@ -166,6 +166,6 @@ WHERE ap.patient_pesel is null and ap.date_godzina>now()
 GROUP BY ap.id, d.pesel;
 
 CREATE VIEW all_appointments AS
-SELECT ap.id, ap.date_godzina,d.name,d.surname FROM appointments ap
+SELECT ap.id, ap.date_godzina,d.name,d.surname, ap.patient_pesel FROM appointments ap
 JOIN doctors d ON d.pesel=ap.doctor_pesel
 ORDER BY ap.date_godzina DESC;

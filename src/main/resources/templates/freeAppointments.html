@@ -2,7 +2,7 @@
 <html lang="en"  dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MedConnect: Pracownik</title>
+    <title>MedConnect: Pacjent</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -58,17 +58,15 @@
             <td>Data i godzina</td>
             <td>Imię</td>
             <td>Nazwisko</td>
-            <td>PESEL pacjenta</td>
-            <td>Usuń</td>
+            <td>Czynność</td>
         </tr>
         <tr th:each="appointment : ${appointmentsList}">
             <td th:text="${appointment.dateTime}"></td>
             <td th:text="${appointment.name}"></td>
             <td th:text="${appointment.surname}"></td>
-            <td th:text="${appointment.patientPesel}"></td>
             <td>
-                <form action="#" th:action="@{/employee/admin/deleteAppointment/__${appointment.id}__}" th:method="delete">
-                    <button onclick="if(!(confirm('Czy na pewno chcesz usunąć wizytę?'))) return false" type="submit" class="btn btn-danger">Usuń</button>
+                <form action="#" th:action="@{/patient/admin/setAppointment/__${appointment.id}__}" th:method="post">
+                    <button onclick="if(!(confirm('Czy na pewno chcesz zapisać się na tę wizytę?'))) return false" type="submit" class="btn btn-success">Zapisz się</button>
                 </form>
             </td>
         </tr>

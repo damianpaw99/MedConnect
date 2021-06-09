@@ -99,4 +99,10 @@ public class AppointmentService {
     public void deleteAppointment(Long id){
         appointmentRepository.deleteById(id);
     }
+
+    public Optional<Appointment> findAppointment(Long id){
+        return appointmentRepository.findById(id);
+    }
+
+
 }

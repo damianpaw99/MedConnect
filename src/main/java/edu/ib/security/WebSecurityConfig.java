@@ -21,7 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        .antMatchers("/doctor/**").hasRole("DOCTOR")
 //        .and().addFilter(new JwtFilter(authenticationManager())).httpBasic().and().csrf().disable().formLogin().disable();
 
-        http.authorizeRequests().antMatchers("/**").permitAll(); // do testów
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.csrf().disable();// do testów
     }
 
 

@@ -20,6 +20,17 @@ public class AllAppointmentView {
 
     private String surname;
 
+    private Long patientPesel;
+
+    public Long getPatientPesel() {
+        return patientPesel;
+    }
+
+    public void setPatientPesel(Long patientPesel) {
+        this.patientPesel = patientPesel;
+    }
+
+
     public AllAppointmentView() {
     }
 

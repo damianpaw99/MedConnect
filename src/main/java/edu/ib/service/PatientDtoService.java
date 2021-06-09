@@ -19,4 +19,12 @@ public class PatientDtoService {
         patientDtoRepository.save(patient);
         return patient;
     }
+
+    public PatientDto findPatient(Long id){
+        PatientDto patientDto = null;
+        if (patientDtoRepository.findById(id).isPresent()){
+            patientDto=patientDtoRepository.findById(id).get();
+        }
+        return patientDto;
+    }
 }

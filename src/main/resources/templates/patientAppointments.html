@@ -58,17 +58,15 @@
             <td>Data i godzina</td>
             <td>Imię</td>
             <td>Nazwisko</td>
-            <td>PESEL pacjenta</td>
             <td>Usuń</td>
         </tr>
         <tr th:each="appointment : ${appointmentsList}">
             <td th:text="${appointment.dateTime}"></td>
             <td th:text="${appointment.name}"></td>
             <td th:text="${appointment.surname}"></td>
-            <td th:text="${appointment.patientPesel}"></td>
             <td>
-                <form action="#" th:action="@{/employee/admin/deleteAppointment/__${appointment.id}__}" th:method="delete">
-                    <button onclick="if(!(confirm('Czy na pewno chcesz usunąć wizytę?'))) return false" type="submit" class="btn btn-danger">Usuń</button>
+                <form action="#" th:action="@{/patient/admin/cancelAppointment/__${appointment.id}__}" th:method="post">
+                    <button onclick="if(!(confirm('Możesz odwołać wizytę najpóźniej 24h przed jej terminem. Czy na pewno chcesz odwołać wizytę?'))) return false" type="submit" class="btn btn-danger">Odwołaj</button>
                 </form>
             </td>
         </tr>

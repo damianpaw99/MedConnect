@@ -55,8 +55,12 @@
 <main>
   <div class="container d-flex justify-content-center" style="position: absolute; margin: 50px; top: 30%">
     <div class="d-grid gap-2">
-      <button class="btn btn-primary" type="button" style="width: 500px">Umów się na wizytę</button>
-      <button class="btn btn-primary" type="button" style="width: 500px">Twoje wizyty</button>
+      <form action="#" th:action="@{/patient/admin/freeAppointments}">
+        <button class="btn btn-primary" type="submit" style="width: 500px">Umów się na wizytę</button>
+      </form>
+      <form action="#" th:action="@{/patient/admin/patientAppointments}">
+        <button class="btn btn-primary" type="submit" style="width: 500px">Twoje wizyty</button>
+      </form>
     </div>
   </div>
 </main>
