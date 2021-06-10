@@ -20,12 +20,12 @@ import java.util.Collections;
 
 public class JwtFilter extends BasicAuthenticationFilter {
 
-    public JwtFilter(AuthenticationManager authenticationManager) {
-        super(authenticationManager);
-    }
-
-    @Value("${jwt.login.token.key}")
     private String signingKey;
+
+    public JwtFilter(AuthenticationManager authenticationManager,String signingKey) {
+        super(authenticationManager);
+        this.signingKey=signingKey;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

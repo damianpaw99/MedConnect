@@ -1,5 +1,6 @@
 package edu.ib.service;
 
+import edu.ib.object.Result;
 import edu.ib.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,5 +13,10 @@ public class ResultService{
     @Autowired
     public ResultService(ResultRepository resultRepository) {
         this.resultRepository = resultRepository;
+    }
+
+
+    public void addResult(Result result){
+        resultRepository.save(result);
     }
 }

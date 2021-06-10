@@ -1,24 +1,30 @@
 package edu.ib.controller;
 
+import edu.ib.object.Result;
 import edu.ib.object.appointment.AllAppointmentView;
 import edu.ib.object.appointment.Appointment;
 import edu.ib.object.appointment.FreeAppointmentView;
 import edu.ib.object.patient.Patient;
 import edu.ib.object.patient.PatientDto;
 import edu.ib.object.patient.PatientDtoBuilder;
+import edu.ib.otherModels.ResultModel;
 import edu.ib.security.DataTokenReader;
 import edu.ib.service.AppointmentService;
 import edu.ib.security.Logger;
 import edu.ib.service.PatientDtoService;
+import edu.ib.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Controller
@@ -26,13 +32,15 @@ public class PatientDtoController {
 
     private PatientDtoService patientDtoService;
     private AppointmentService appointmentService;
+    private ResultService resultService;
     @Value("${jwt.login.token.key}")
     private String signingKey;
 
     @Autowired
-    public PatientDtoController(PatientDtoService patientDtoService, AppointmentService appointmentService) {
+    public PatientDtoController(PatientDtoService patientDtoService, AppointmentService appointmentService, ResultService resultService) {
         this.patientDtoService = patientDtoService;
         this.appointmentService = appointmentService;
+        this.resultService = resultService;
     }
 
     @GetMapping("/patient/registration")
@@ -211,5 +219,54 @@ public class PatientDtoController {
         }
         patientDtoService.changePassword(pesel,logger.getPassword());
         return "redirect:/logout";
+    }
+
+    @GetMapping("/patient/addResult")
+    public String getAddResultForm(Model model, HttpServletRequest request){
+        setRoleToModel(model,request);
+        model.addAttribute("result",new ResultModel());
+        return "add_result_patient";
+    }
+
+    @PostMapping(value="/patient/addResult", consumes = {"multipart/form-data"})
+    public String addResult(@ModelAttribute ResultModel result, @RequestParam("file") MultipartFile file, HttpServletRequest request){
+        Cookie [] cookies=request.getCookies();
+        Long pesel=null;
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    DataTokenReader reader=new DataTokenReader(signingKey);
+                    pesel = reader.readPesel(cookie.getValue());
+                    break;
+                }
+            }
+        }
+
+        Result resultDto=new Result();
+        resultDto.setPatient(patientDtoService.findPatient(pesel));
+        resultDto.setTime(LocalDateTime.now());
+        resultDto.setType(result.getType());
+        resultDto.setDescription(result.getDescription());
+        try {
+
+            String uploadDir = "/uploads/";
+            String realPath = request.getServletContext().getRealPath(uploadDir);
+            //String realPath = "./photos";
+            String newFileName=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+".png";
+            File transferFile = new File(realPath + "/" + file.getOriginalFilename());
+            //file.transferTo(transferFile);
+            File save = new File("./photos/"+file.getOriginalFilename());
+            if(!save.getName().endsWith(".png")) return "redirect:/error";
+            file.transferTo(save);
+            File rename=new File("./photos/"+newFileName);
+            save.renameTo(rename);
+            resultDto.setPhoto(newFileName);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return "redirect:/error";
+        }
+        resultService.addResult(resultDto);
+        return "redirect:/patient/menu";
     }
 }
