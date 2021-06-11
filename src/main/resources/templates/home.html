@@ -11,6 +11,7 @@
 
     <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
 
 </head>
 
@@ -56,10 +57,20 @@
 </header>
 
 <main>
-    <div>
-        <img src="img/graphics.png" alt="medconnect" width="100%">
+    <div class="gradientbackground">
+        <div class="centered">
+            <img src="img/graphics.png" alt="medconnect"/>
+        </div>
+        <figure class="middle">
+            <blockquote class="blockquote">
+                <p>MedConnect to system służący do rejestracji pacjentów na wizyty lekarskie. Jest to również intuicyjne środowisko środowisko przechowywujące dokumentację medyczną i informacje
+                    związane z leczeniem.
+                    <br>
+                    Zapewniamy poufność danych, prostotę obsługi i maksymalnie uproszczone procedury
+                    związane z formalną częścią wizyt lekarskich.</p>
+            </blockquote>
+        </figure>
     </div>
-    <p th:text="${date}"></p>
 </main>
 
 </body>
