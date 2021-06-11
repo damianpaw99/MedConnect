@@ -1,0 +1,34 @@
+body{
+    background-image:  url("firstaidkit.png");
+}
+.centered {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    width: 60%;
+    margin: auto;
+    display: block;
+}
+
+.middle {
+    margin: 0 8rem 0 8rem;
+    border-width: 5px;
+    border-color: #417580;
+    border-style: double;
+}
+
+blockquote{
+    padding: 10px;
+    text-align: center;
+    color: #417580;
+}
+
+.gradientbackground{
+    padding: 2rem 0 4rem 0;
+    margin: 4rem 10rem 2rem 10rem;
+    background-image: linear-gradient(#C4D8DA, #C4C6DA);
+}
