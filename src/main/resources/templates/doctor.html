@@ -38,7 +38,7 @@
           <li th:if="${role}=='DOCTOR'" class="nav-item">
             <a class="nav-link active" href="/doctor/menu">Lekarz</a>
           </li>
-          <li  th:if="${role}=='RECEPCJONISTA' || ${role}=='ADMIN'" class="nav-item">
+          <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
             <a class="nav-link" href="/employee/menu">Pracownik</a>
           </li>
         </ul>
@@ -55,7 +55,9 @@
 <main>
   <div class="container d-flex justify-content-center" style="position: absolute; margin: 50px; top: 30%">
     <div class="d-grid gap-2">
-      <button class="btn btn-primary" disabled type="button" style="width: 500px">Umówione wizyty</button>
+      <form action="#" th:action="@{/doctor/doctorAppointments}">
+        <button class="btn btn-primary" type="submit" style="width: 500px">Umówione wizyty</button>
+      </form>
       <button class="btn btn-primary" disabled type="button" style="width: 500px">Twój grafik</button>
       <form action="#" th:action="@{/doctor/editData}">
         <button class="btn btn-primary" type="submit" style="width: 500px">Edytuj dane lub hasło</button>

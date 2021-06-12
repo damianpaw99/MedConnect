@@ -20,7 +20,45 @@ public class AllAppointmentView {
 
     private String surname;
 
+    @Column(name = "patient_pesel")
     private Long patientPesel;
+
+    @Column(name = "doctor_pesel")
+    private Long doctorPesel;
+
+    @Column(name = "patient_name")
+    private String patientName;
+
+    @Column(name = "patient_surname")
+    private String patientSurname;
+
+
+    public AllAppointmentView() {
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientSurname() {
+        return patientSurname;
+    }
+
+    public void setPatientSurname(String patientSurname) {
+        this.patientSurname = patientSurname;
+    }
+
+    public Long getDoctorPesel() {
+        return doctorPesel;
+    }
+
+    public void setDoctorPesel(Long doctorPesel) {
+        this.doctorPesel = doctorPesel;
+    }
 
     public Long getPatientPesel() {
         return patientPesel;
@@ -28,10 +66,6 @@ public class AllAppointmentView {
 
     public void setPatientPesel(Long patientPesel) {
         this.patientPesel = patientPesel;
-    }
-
-
-    public AllAppointmentView() {
     }
 
     public Long getId() {

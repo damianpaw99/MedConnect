@@ -100,6 +100,11 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
+    public Optional<AllAppointmentView> getAppointmentById(Long id){
+        return allAppointmentsViewRepository.findById(id);
+    }
+
+
     public Optional<Appointment> findAppointment(Long id){
         return appointmentRepository.findById(id);
     }

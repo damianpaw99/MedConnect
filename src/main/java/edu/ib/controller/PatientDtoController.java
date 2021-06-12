@@ -1,5 +1,6 @@
 package edu.ib.controller;
 
+import edu.ib.object.AllResultsView;
 import edu.ib.object.Result;
 import edu.ib.object.appointment.AllAppointmentView;
 import edu.ib.object.appointment.Appointment;
@@ -126,6 +127,14 @@ public class PatientDtoController {
         Iterable<FreeAppointmentView> freeAppointments=appointmentService.getFreeViewAppointments();
         model.addAttribute("appointmentsList",freeAppointments);
         return "freeAppointments";
+    }
+
+    @GetMapping("/patient/viewResults")
+    public String getAllResults(Model model, HttpServletRequest request){
+        setRoleToModel(model,request);
+        Iterable<AllResultsView> allResultsViews=resultService.getAllViewResults();
+        model.addAttribute("resultsList",allResultsViews);
+        return "patientResults";
     }
 
     @GetMapping("/patient/admin/patientAppointments")
