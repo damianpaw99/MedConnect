@@ -56,7 +56,7 @@ public class PatientDtoController {
         PatientDtoBuilder builder=new PatientDtoBuilder();
         PatientDto patientDto=builder.build(patient);
         patientDtoService.addPatient(patientDto);
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @PostMapping("/patient/admin/setAppointment/{id}")

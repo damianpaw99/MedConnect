@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"  dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MedConnect: Pracownik</title>
+    <title>MedConnect</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -33,12 +33,12 @@
                         <a class="nav-link" href="/patient/registration">Rejestracja</a>
                     </li>
                     <li th:if="${role}=='PATIENT'" class="nav-item">
-                        <a class="nav-link" href="/patient/menu">Pacjent</a>
+                        <a class="nav-link active" href="/patient/menu">Pacjent</a>
                     </li>
                     <li th:if="${role}=='DOCTOR'" class="nav-item">
-                        <a class="nav-link" href="/doctor/menu">Lekarz</a>
+                        <a class="nav-link active" href="/doctor/menu">Lekarz</a>
                     </li>
-                    <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
+                    <li th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
                         <a class="nav-link active" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
@@ -52,32 +52,36 @@
         </div>
     </nav>
 </header>
-<form action="#" th:action="@{/patient/addResult}" th:object="${result}" method="post" enctype="multipart/form-data">
-    <fieldset>
-        <legend style="margin-top: 1.5em">Wprowadź wynik</legend>
+<main>
+    <div class="container" style="margin-bottom: 50px">
+        <form action="#" th:action="@{/patient/addResult}" th:object="${result}" method="post"
+              enctype="multipart/form-data">
+            <fieldset>
+                <legend style="margin-top: 1.5em">Wprowadź wynik</legend>
 
-        <div class="form-group">
-            <label class="col-form-label mt-4" for="inputType">Typ</label>
-            <input type="text" class="form-control" placeholder="Typ" id="inputType"
-                   name="inputName" th:field="*{type}">
-        </div>
-        <div class="form-group">
-            <label class="col-form-label mt-4" for="inputDescription">Opis</label>
-            <input type="text" class="form-control" placeholder="Opis" id="inputDescription"
-                   name="inputSurname" th:field="*{description}">
-        </div>
-        <div class="form-group">
-            <label class="col-form-label mt-4" for="inputFile">Zdjęcie</label>
-            <input type="file" class="form-control" placeholder="Zdjęcie"
-                   id="inputFile" name="file" >
-        </div>
+                <div class="form-group">
+                    <label class="col-form-label mt-4" for="inputType">Typ</label>
+                    <input type="text" class="form-control" placeholder="Wprowadź typ wyniku badania" id="inputType"
+                           name="inputName" th:field="*{type}">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label mt-4" for="inputDescription">Opis</label>
+                    <input type="text" class="form-control" placeholder="Wprowadź opis wyniku" id="inputDescription"
+                           name="inputSurname" th:field="*{description}">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label mt-4" for="inputFile">Zdjęcie</label>
+                    <input type="file" class="form-control" placeholder="Zdjęcie"
+                           id="inputFile" name="file">
+                </div>
 
-        <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
-            <button type="submit" class="btn btn-primary">Utwórz</button>
-        </div>
+                <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
+                    <button type="submit" class="btn btn-primary">Utwórz</button>
+                </div>
 
-    </fieldset>
-</form>
-
+            </fieldset>
+        </form>
+    </div>
+</main>
 </body>
 </html>
