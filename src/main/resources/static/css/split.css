@@ -1,0 +1,27 @@
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+}
+
+.left {
+    left: 25%;
+}
+
+.right {
+    right: -25%;
+}
+
+.centered {
+    position: absolute;
+    top: 40%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.vl {
+    top: 53%;
+    left: 75%;
+    border-left: 1px solid gray;
+    height: 80%;
+}

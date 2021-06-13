@@ -1,0 +1,103 @@
+package edu.ib.object.appointment;
+
+import org.springframework.data.annotation.Immutable;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Immutable
+@Table(name="all_appointments")
+public class AllAppointmentView {
+
+    @Id
+    private Long id;
+
+    @Column(name = "date_godzina")
+    private LocalDateTime dateTime;
+
+    private String name;
+
+    private String surname;
+
+    @Column(name = "patient_pesel")
+    private Long patientPesel;
+
+    @Column(name = "doctor_pesel")
+    private Long doctorPesel;
+
+    @Column(name = "patient_name")
+    private String patientName;
+
+    @Column(name = "patient_surname")
+    private String patientSurname;
+
+
+    public AllAppointmentView() {
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientSurname() {
+        return patientSurname;
+    }
+
+    public void setPatientSurname(String patientSurname) {
+        this.patientSurname = patientSurname;
+    }
+
+    public Long getDoctorPesel() {
+        return doctorPesel;
+    }
+
+    public void setDoctorPesel(Long doctorPesel) {
+        this.doctorPesel = doctorPesel;
+    }
+
+    public Long getPatientPesel() {
+        return patientPesel;
+    }
+
+    public void setPatientPesel(Long patientPesel) {
+        this.patientPesel = patientPesel;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MedConnect: Błąd</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="img/png" th:href="@{/img/logo.png}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/home">MedConnect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
+                    aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Strona główna</a>
+                    </li>
+                    <li th:if="${role}==null" class="nav-item">
+                        <a class="nav-link" href="/login">Logowanie</a>
+                    </li>
+                    <li th:if="${role}==null" class="nav-item">
+                        <a class="nav-link" href="/patient/registration">Rejestracja</a>
+                    </li>
+                    <li th:if="${role}=='PATIENT'" class="nav-item">
+                        <a class="nav-link" href="/patient/menu">Pacjent</a>
+                    </li>
+                    <li th:if="${role}=='DOCTOR'" class="nav-item">
+                        <a class="nav-link" href="/doctor/menu">Lekarz</a>
+                    </li>
+                    <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
+                        <a class="nav-link active" href="/employee/menu">Pracownik</a>
+                    </li>
+                </ul>
+                <form th:if="${role}!=null" th:action="@{/logouts}" method="get" class="d-flex">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
+                            onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div style="margin: 30px;">
+        <h3>Wystąpił błąd</h3>
+        <h5>Powróć do strony głównej</h5>
+    </div>
+
+</main>
+
+</body>
+</html>
