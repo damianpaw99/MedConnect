@@ -44,7 +44,7 @@
                         <a class="nav-link" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
-                <form th:if="${role}!=null" th:action="@{/logout}" method="get" class="d-flex">
+                <form th:if="${role}!=null" th:action="@{/logouts}" method="get" class="d-flex">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
                             onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
                     </button>

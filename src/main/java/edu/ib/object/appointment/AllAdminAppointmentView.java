@@ -2,13 +2,16 @@ package edu.ib.object.appointment;
 
 import org.springframework.data.annotation.Immutable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
 @Immutable
-@Table(name="all_appointments")
-public class AllAppointmentView {
+@Table(name="all_appointments_admin")
+public class AllAdminAppointmentView {
 
     @Id
     private Long id;
@@ -26,46 +29,7 @@ public class AllAppointmentView {
     @Column(name = "doctor_pesel")
     private Long doctorPesel;
 
-    @Column(name = "patient_name")
-    private String patientName;
-
-    @Column(name = "patient_surname")
-    private String patientSurname;
-
-
-    public AllAppointmentView() {
-    }
-
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
-
-    public String getPatientSurname() {
-        return patientSurname;
-    }
-
-    public void setPatientSurname(String patientSurname) {
-        this.patientSurname = patientSurname;
-    }
-
-    public Long getDoctorPesel() {
-        return doctorPesel;
-    }
-
-    public void setDoctorPesel(Long doctorPesel) {
-        this.doctorPesel = doctorPesel;
-    }
-
-    public Long getPatientPesel() {
-        return patientPesel;
-    }
-
-    public void setPatientPesel(Long patientPesel) {
-        this.patientPesel = patientPesel;
+    public AllAdminAppointmentView() {
     }
 
     public Long getId() {
@@ -100,4 +64,19 @@ public class AllAppointmentView {
         this.surname = surname;
     }
 
+    public Long getPatientPesel() {
+        return patientPesel;
+    }
+
+    public void setPatientPesel(Long patientPesel) {
+        this.patientPesel = patientPesel;
+    }
+
+    public Long getDoctorPesel() {
+        return doctorPesel;
+    }
+
+    public void setDoctorPesel(Long doctorPesel) {
+        this.doctorPesel = doctorPesel;
+    }
 }

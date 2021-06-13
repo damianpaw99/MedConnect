@@ -175,4 +175,7 @@ CREATE VIEW all_results AS
 SELECT r.id, r.patient_pesel, r.type, r.photos, r.insert_date, r.description FROM results r
 ORDER BY r.insert_date DESC;
 
-
+CREATE VIEW all_appointments_admin AS
+SELECT ap.id, ap.date_godzina,d.name,d.surname, ap.patient_pesel, ap.doctor_pesel FROM appointments ap
+JOIN doctors d ON d.pesel=ap.doctor_pesel
+ORDER BY ap.date_godzina;

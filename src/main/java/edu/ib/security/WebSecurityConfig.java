@@ -13,19 +13,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/home").permitAll()
-//        .antMatchers("/").permitAll()
-//        .antMatchers("/login").permitAll()
-//        .antMatchers("/employee/admin/registration").permitAll() //!!!!!!! Do usuniecia, tylko w celach testowych
-//        .antMatchers("**/admin/**").hasRole("ADMIN")
-//        .antMatchers("/patient/registration").permitAll()
-//        .antMatchers("/patient/**").hasRole("PATIENT")
-//        .antMatchers("/reception/**").hasRole("RECEPCJONISTA")
-//        .antMatchers("/doctor/**").hasRole("DOCTOR")
-//        .and().addFilter(new JwtFilter(authenticationManager(),signingKey)).httpBasic().and().csrf().disable().formLogin().loginPage("/moveToLogin");
-
-        http.authorizeRequests().antMatchers("/**").permitAll();
-        http.csrf().disable();// do testów
+        http.authorizeRequests().antMatchers("/home").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/patient/registration").permitAll()
+                .antMatchers("/patient/admin/**").hasRole("ADMIN")
+                .antMatchers("/employee/admin/**").hasRole("ADMIN")
+                .antMatchers("/doctor/admin/**").hasRole("ADMIN")
+                .antMatchers("/patient/**").hasRole("PATIENT")
+                .antMatchers("/employee/**").hasAnyRole("RECEPCJONISTA","ADMIN")
+                .antMatchers("/doctor/**").hasRole("DOCTOR")
+                .and().addFilter(new JwtFilter(authenticationManager(),signingKey))
+                .httpBasic().and().csrf().disable().formLogin().loginPage("/moveToLogin");
+        //http.authorizeRequests().antMatchers("/**").permitAll().and().csrf().disable().formLogin().disable();// do testów
     }
 
 

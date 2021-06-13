@@ -1,5 +1,6 @@
 package edu.ib.service;
 
+import edu.ib.object.appointment.AllAdminAppointmentView;
 import edu.ib.object.appointment.AllAppointmentView;
 import edu.ib.object.appointment.Appointment;
 import edu.ib.object.appointment.FreeAppointmentView;
@@ -23,14 +24,16 @@ public class AppointmentService {
     private EmployeeDtoRepository employeeDtoRepository;
     private FreeAppointmentViewRepository freeAppointmentViewRepository;
     private AllAppointmentsViewRepository allAppointmentsViewRepository;
+    private AllAdminAppointmentViewRepository allAdminAppointmentViewRepository;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, DoctorDtoRepository doctorDtoRepository, EmployeeDtoRepository employeeDtoRepository, FreeAppointmentViewRepository freeAppointmentViewRepository, AllAppointmentsViewRepository allAppointmentsViewRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, DoctorDtoRepository doctorDtoRepository, EmployeeDtoRepository employeeDtoRepository, FreeAppointmentViewRepository freeAppointmentViewRepository, AllAppointmentsViewRepository allAppointmentsViewRepository, AllAdminAppointmentViewRepository allAdminAppointmentViewRepository) {
         this.appointmentRepository = appointmentRepository;
         this.doctorDtoRepository = doctorDtoRepository;
         this.employeeDtoRepository = employeeDtoRepository;
         this.freeAppointmentViewRepository = freeAppointmentViewRepository;
         this.allAppointmentsViewRepository = allAppointmentsViewRepository;
+        this.allAdminAppointmentViewRepository = allAdminAppointmentViewRepository;
     }
 
     public void addAppointmentsFromTimetable(Timetable timetable, Long employeePesel) throws Exception {
@@ -104,6 +107,9 @@ public class AppointmentService {
         return allAppointmentsViewRepository.findById(id);
     }
 
+    public Iterable<AllAdminAppointmentView> getAllViewAdminAppointments(){
+        return allAdminAppointmentViewRepository.findAll();
+    }
 
     public Optional<Appointment> findAppointment(Long id){
         return appointmentRepository.findById(id);

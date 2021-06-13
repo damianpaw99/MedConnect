@@ -10,15 +10,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ErrorController {
+public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
     @Value("${jwt.login.token.key}")
     private String signingKey;
 
-    @GetMapping("/errorl")
+    @GetMapping("/error")
     public String sessionError(Model model,HttpServletRequest request){
         setRoleToModel(model,request);
-        return "errorl";
+        return "error";
     }
     private void setRoleToModel(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -33,5 +33,10 @@ public class ErrorController {
             }
         }
         model.addAttribute("role",role);
+    }
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
     }
 }

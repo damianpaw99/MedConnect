@@ -56,8 +56,8 @@ public class LoginController {
         return "log_form";
     }
 
-    @GetMapping("moveToLogin")
-    public String getLoginForm(){
+    @GetMapping("/moveToLogin")
+    public String moveToLogin(){
         return "redirect:/login";
     }
 
@@ -129,7 +129,7 @@ public class LoginController {
         return "redirect:/home";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/logouts")
     public String logout(HttpServletResponse response){
         Cookie cookie=new Cookie("token","");
         cookie.setMaxAge(0);
