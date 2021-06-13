@@ -1,5 +1,6 @@
 package edu.ib.controller;
 
+import edu.ib.object.appointment.AllAdminAppointmentView;
 import edu.ib.object.appointment.AllAppointmentView;
 import edu.ib.object.doctor.Doctor;
 import edu.ib.object.doctor.DoctorDto;
@@ -96,7 +97,7 @@ public class EmployeeDtoController {
     @GetMapping("/employee/admin/allAppointments")
     public String getAllAppointments(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
-        Iterable<AllAppointmentView> allAppointments=appointmentService.getAllViewAppointments();
+        Iterable<AllAdminAppointmentView> allAppointments=appointmentService.getAllViewAdminAppointments();
         model.addAttribute("appointmentsList",allAppointments);
         return "allAppointments";
     }
@@ -241,7 +242,7 @@ public class EmployeeDtoController {
             }
         }
         employeeDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logout";
+        return "redirect:/logouts";
     }
 
     private void setRoleToModel(Model model, HttpServletRequest request) {

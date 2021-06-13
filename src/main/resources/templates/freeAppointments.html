@@ -42,7 +42,7 @@
                         <a class="nav-link active" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
-                <form th:if="${role}!=null" th:action="@{/logout}" method="get" class="d-flex">
+                <form th:if="${role}!=null" th:action="@{/logouts}" method="get" class="d-flex">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
                             onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
                     </button>
@@ -58,12 +58,14 @@
             <td>Data i godzina</td>
             <td>Imię</td>
             <td>Nazwisko</td>
+            <td>Specjalizacje</td>
             <td>Czynność</td>
         </tr>
         <tr th:each="appointment : ${appointmentsList}">
             <td th:text="${appointment.dateTime}"></td>
             <td th:text="${appointment.name}"></td>
             <td th:text="${appointment.surname}"></td>
+            <td th:text="${appointment.specs}"></td>
             <td>
                 <form action="#" th:action="@{/patient/admin/setAppointment/__${appointment.id}__}" th:method="post">
                     <button onclick="if(!(confirm('Czy na pewno chcesz zapisać się na tę wizytę?'))) return false" type="submit" class="btn btn-success">Zapisz się</button>

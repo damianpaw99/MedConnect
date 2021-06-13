@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/doctor")
 public class DoctorDtoController {
 
     private DoctorDtoService doctorDtoService;
@@ -43,27 +42,27 @@ public class DoctorDtoController {
 
     }
 
-    @GetMapping("/admin/registration")
+    @GetMapping("/doctor/admin/registration")
     public String getDoctorRegistration(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
         model.addAttribute("doctor",new Doctor());
         return "registration_form_doctor";
     }
 
-    @PostMapping("/admin/registration")
+    @PostMapping("/doctor/admin/registration")
     public String createDoctor(@ModelAttribute Doctor doctor,Model model){
         DoctorDtoBuilder builder=new DoctorDtoBuilder();
         doctorDtoService.addDoctor(builder.build(doctor));
         return "redirect:/home";
     }
 
-    @GetMapping("/menu")
+    @GetMapping("/doctor/menu")
     public String getMenu(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
         return "doctor";
     }
 
-    @GetMapping("/doctorAppointments")
+    @GetMapping("/doctor/doctorAppointments")
     public String getDoctorAppointments(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
         ArrayList<AllAppointmentView> doctorAppointments = new ArrayList<>();
@@ -141,7 +140,7 @@ public class DoctorDtoController {
         return "redirect:/doctor/menu";
     }
 
-    @GetMapping("/appointmentDetails/{id}")
+    @GetMapping("/doctor/appointmentDetails/{id}")
     public String getAppointmentsDetails(@PathVariable Long id, Model model){
         Iterable<AllResultsView> results = resultService.getAllViewResults();
         Optional<AllAppointmentView> app = appointmentService.getAppointmentById(id);
@@ -173,6 +172,6 @@ public class DoctorDtoController {
             }
         }
         doctorDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logout";
+        return "redirect:/logouts";
     }
 }

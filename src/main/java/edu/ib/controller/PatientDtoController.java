@@ -227,7 +227,7 @@ public class PatientDtoController {
             }
         }
         patientDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logout";
+        return "redirect:/logouts";
     }
 
     @GetMapping("/patient/addResult")

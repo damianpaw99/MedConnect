@@ -42,10 +42,8 @@
             <a class="nav-link" href="/employee/menu">Pracownik</a>
           </li>
         </ul>
-        <form th:if="${role}!=null" th:action="@{/logout}" method="get" class="d-flex">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" name="command" value="LOG OUT"
-                  onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj
-          </button>
+        <form action="#" th:if="${role}!=null" th:action="@{/logouts}" method="get">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" onclick="if(!(confirm('Czy na pewno chcesz się wylogować?'))) return false">Wyloguj</button>
         </form>
       </div>
     </div>
@@ -58,7 +56,6 @@
       <form action="#" th:action="@{/doctor/doctorAppointments}">
         <button class="btn btn-primary" type="submit" style="width: 500px">Umówione wizyty</button>
       </form>
-      <button class="btn btn-primary" disabled type="button" style="width: 500px">Twój grafik</button>
       <form action="#" th:action="@{/doctor/editData}">
         <button class="btn btn-primary" type="submit" style="width: 500px">Edytuj dane lub hasło</button>
       </form>
