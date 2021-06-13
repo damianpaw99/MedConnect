@@ -2,7 +2,7 @@
 <html lang="en"  dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MedConnect: Pracownik</title>
+    <title>MedConnect</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -33,10 +33,10 @@
                         <a class="nav-link" href="/patient/registration">Rejestracja</a>
                     </li>
                     <li th:if="${role}=='PATIENT'" class="nav-item">
-                        <a class="nav-link" href="/patient/menu">Pacjent</a>
+                        <a class="nav-link active" href="/patient/menu">Pacjent</a>
                     </li>
                     <li th:if="${role}=='DOCTOR'" class="nav-item">
-                        <a class="nav-link" href="/doctor/menu">Lekarz</a>
+                        <a class="nav-link active" href="/doctor/menu">Lekarz</a>
                     </li>
                     <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
                         <a class="nav-link active" href="/employee/menu">Pracownik</a>
