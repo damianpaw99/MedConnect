@@ -62,9 +62,11 @@
         </tr>
         <tr th:each="result : ${resultsList}">
             <td th:text="${result.time}"></td>
-            <td th:text="${result.type}"></td>
+            <td th:text="${result.type}" align="CENTER" style="vertical-align: center"></td>
             <td th:text="${result.description}"></td>
-            <td th:text="${result.photos}"></td>
+            <td>
+                <img th:src="@{${'/photos/'+result.photos}}" width="300dp"><img/>
+            </td>
         </tr>
 
     </table>

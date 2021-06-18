@@ -7,6 +7,9 @@ import edu.ib.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class ResultService{
 
@@ -26,6 +29,8 @@ public class ResultService{
 
     public Iterable<AllResultsView> getAllViewResults(){
         return allResultsViewRepository.findAll();
-
+    }
+    public Iterable<AllResultsView> getPatientResults(Long pesel){
+        return allResultsViewRepository.findByPatientPesel(pesel);
     }
 }

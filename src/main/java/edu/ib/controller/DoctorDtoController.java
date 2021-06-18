@@ -142,17 +142,15 @@ public class DoctorDtoController {
 
     @GetMapping("/doctor/appointmentDetails/{id}")
     public String getAppointmentsDetails(@PathVariable Long id, Model model){
-        Iterable<AllResultsView> results = resultService.getAllViewResults();
+
         Optional<AllAppointmentView> app = appointmentService.getAppointmentById(id);
-        ArrayList<AllResultsView> finalResults = new ArrayList<>();
+        Iterable<AllResultsView> results=null;
+        if(app.isPresent()) {
+            results = resultService.getPatientResults(app.get().getPatientPesel());
+        }
 
-        results.forEach((element) -> {
-            if (app.isPresent() && element.getPatientPesel()== app.get().getPatientPesel()){
-                finalResults.add(element);
-            }
-        });
 
-        model.addAttribute("resultsList", finalResults);
+        model.addAttribute("resultsList", results);
 
 
         return "patientResults";

@@ -67,7 +67,7 @@
             <td th:text="${appointment.surname}"></td>
             <td th:text="${appointment.specs}"></td>
             <td>
-                <form action="#" th:action="@{/patient/admin/setAppointment/__${appointment.id}__}" th:method="post">
+                <form action="#" th:action="@{/patient/setAppointment/__${appointment.id}__}" th:method="post">
                     <button onclick="if(!(confirm('Czy na pewno chcesz zapisać się na tę wizytę?'))) return false" type="submit" class="btn btn-success">Zapisz się</button>
                 </form>
             </td>
