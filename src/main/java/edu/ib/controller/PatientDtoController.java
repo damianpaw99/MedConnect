@@ -59,7 +59,7 @@ public class PatientDtoController {
         return "redirect:/login";
     }
 
-    @PostMapping("/patient/admin/setAppointment/{id}")
+    @PostMapping("/patient/setAppointment/{id}")
     public String setAppointment(@PathVariable Long id, HttpServletRequest request) throws Exception {
         Appointment appointment = null;
         PatientDto patient = null;
@@ -79,15 +79,12 @@ public class PatientDtoController {
             appointment = appointmentService.findAppointment(id).get();
             patient=patientDtoService.findPatient(pesel);
             appointment.setPatient(patient);
-            appointmentService.deleteAppointment(id);
-            appointmentService.addAppointment(appointment);
+            appointmentService.addAppointment(appointment); //dodanie wizyty posiadającej takie samo id jak w bazie danych ją podmienia
         }
-
-
-        return "redirect:/patient/admin/freeAppointments";
+        return "redirect:/patient/freeAppointments";
     }
 
-    @PostMapping("/patient/admin/cancelAppointment/{id}")
+    @PostMapping("/patient/cancelAppointment/{id}")
     public String cancelAppointment(@PathVariable Long id, HttpServletRequest request) throws Exception {
         Appointment appointment = null;
 
@@ -112,7 +109,7 @@ public class PatientDtoController {
 
         }
 
-        return "redirect:/patient/admin/patientAppointments";
+        return "redirect:/patient/patientAppointments";
     }
 
     @GetMapping("/patient/menu")
@@ -121,7 +118,7 @@ public class PatientDtoController {
         return "patient";
     }
 
-    @GetMapping("/patient/admin/freeAppointments")
+    @GetMapping("/patient/freeAppointments")
     public String getAllAppointments(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
         Iterable<FreeAppointmentView> freeAppointments=appointmentService.getFreeViewAppointments();
@@ -132,12 +129,23 @@ public class PatientDtoController {
     @GetMapping("/patient/viewResults")
     public String getAllResults(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
-        Iterable<AllResultsView> allResultsViews=resultService.getAllViewResults();
+        Cookie[] cookies = request.getCookies();
+        Long pesel=null;
+        if(cookies!=null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    DataTokenReader reader=new DataTokenReader(signingKey);
+                    pesel=reader.readPesel(cookie.getValue());
+                    break;
+                }
+            }
+        }
+        Iterable<AllResultsView> allResultsViews=resultService.getPatientResults(pesel);
         model.addAttribute("resultsList",allResultsViews);
         return "patientResults";
     }
 
-    @GetMapping("/patient/admin/patientAppointments")
+    @GetMapping("/patient/patientAppointments")
     public String getPatientAppointments(Model model, HttpServletRequest request){
         setRoleToModel(model,request);
         ArrayList<AllAppointmentView> patientAppointments = new ArrayList<>();
@@ -213,7 +221,7 @@ public class PatientDtoController {
         patientDtoService.editPatient(patient);
         return "redirect:/patient/menu";
     }
-    @PutMapping("/patient/editPassword")
+    @PutMapping("/patient/changePassword")
     public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         Long pesel=null;
@@ -264,10 +272,10 @@ public class PatientDtoController {
             String newFileName=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+".png";
             File transferFile = new File(realPath + "/" + file.getOriginalFilename());
             //file.transferTo(transferFile);
-            File save = new File("./photos/"+file.getOriginalFilename());
+            File save = new File("./src/main/resources/photos/"+file.getOriginalFilename());
             if(!save.getName().endsWith(".png")) return "redirect:/error";
             file.transferTo(save);
-            File rename=new File("./photos/"+newFileName);
+            File rename=new File("./src/main/resources/photos/"+newFileName);
             save.renameTo(rename);
             resultDto.setPhoto(newFileName);
         } catch (Exception e) {

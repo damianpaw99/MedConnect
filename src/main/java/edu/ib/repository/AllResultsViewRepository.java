@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AllResultsViewRepository extends CrudRepository<AllResultsView,Long> {
+
+    Iterable<AllResultsView> findByPatientPesel(Long pesel);
 }
