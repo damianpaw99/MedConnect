@@ -9,6 +9,7 @@ import edu.ib.object.patient.Patient;
 import edu.ib.object.patient.PatientDto;
 import edu.ib.object.patient.PatientDtoBuilder;
 import edu.ib.otherModels.ResultModel;
+import edu.ib.otherModels.Timetable;
 import edu.ib.security.DataTokenReader;
 import edu.ib.service.AppointmentService;
 import edu.ib.security.Logger;
@@ -25,6 +26,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -57,6 +59,15 @@ public class PatientDtoController {
         PatientDto patientDto=builder.build(patient);
         patientDtoService.addPatient(patientDto);
         return "redirect:/login";
+    }
+
+    @GetMapping("/patient/freeAppointments/filtered")
+    public String filterData(Model model, HttpServletRequest request, String keyword){
+        setRoleToModel(model,request);
+        Iterable<FreeAppointmentView> filteredFreeAppointments = appointmentService.getFreeViewAppointmentsByKeyword(keyword);
+        model.addAttribute("appointmentsList",filteredFreeAppointments);
+        return "freeAppointments";
+
     }
 
     @PostMapping("/patient/setAppointment/{id}")
