@@ -135,4 +135,18 @@ public class Timetable {
     public void setDoctorPesel(Long doctorPesel) {
         this.doctorPesel = doctorPesel;
     }
+
+
+    public boolean isCorrect(){
+        if(startDate.equals("")) return false;
+        if(endDate.equals("")) return false;
+        if(getEndDateAsDate().isBefore(getStartDateAsDate())) return false;
+        if(!(monday||tuesday||wednesday||thursday||friday||saturday||sunday)) return false;
+        if(doctorPesel==null) return false;
+        if(timeBetween<0) return false;
+        if(startTime.equals("")) return false;
+        if(endTime.equals("")) return false;
+        if(getEndTimeAsTime().isBefore(getStartTimeAsTime())) return false;
+        return true;
+    }
 }

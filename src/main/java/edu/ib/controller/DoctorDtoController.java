@@ -50,10 +50,16 @@ public class DoctorDtoController {
     }
 
     @PostMapping("/doctor/admin/registration")
-    public String createDoctor(@ModelAttribute Doctor doctor,Model model){
+    public String createDoctor(@ModelAttribute Doctor doctor,Model model, HttpServletRequest request){
         DoctorDtoBuilder builder=new DoctorDtoBuilder();
-        doctorDtoService.addDoctor(builder.build(doctor));
-        return "redirect:/home";
+        if(doctor.isCorrect()) {
+            doctorDtoService.addDoctor(builder.build(doctor));
+            return "redirect:/home";
+        } else {
+            model.addAttribute("doctor",doctor);
+            setRoleToModel(model,request);
+            return "registration_form_doctor";
+        }
     }
 
     @GetMapping("/doctor/menu")
@@ -135,14 +141,21 @@ public class DoctorDtoController {
         return "edit_doctor";
     }
     @PatchMapping("/doctor/editData")
-    public String editData(@ModelAttribute Doctor doctor){
-        doctorDtoService.editDoctor(doctor);
-        return "redirect:/doctor/menu";
+    public String editData(@ModelAttribute Doctor doctor, Model model,HttpServletRequest request){
+        if(doctor.isEditionCorrect()) {
+            doctorDtoService.editDoctor(doctor);
+            return "redirect:/doctor/menu";
+        } else {
+            setRoleToModel(model, request);
+            model.addAttribute("doctor",doctor);
+            model.addAttribute("logger",new Logger());
+            return "edit_doctor";
+        }
     }
 
     @GetMapping("/doctor/appointmentDetails/{id}")
-    public String getAppointmentsDetails(@PathVariable Long id, Model model){
-
+    public String getAppointmentsDetails(@PathVariable Long id, Model model, HttpServletRequest request){
+        setRoleToModel(model,request);
         Optional<AllAppointmentView> app = appointmentService.getAppointmentById(id);
         Iterable<AllResultsView> results=null;
         if(app.isPresent()) {
@@ -156,20 +169,46 @@ public class DoctorDtoController {
         return "patientResults";
     }
 
-    @PutMapping("/doctor/editPassword")
-    public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        Long pesel=null;
-        if(cookies!=null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    DataTokenReader reader=new DataTokenReader(signingKey);
-                    pesel = reader.readPesel(cookie.getValue());
-                    break;
+    @PutMapping("/doctor/changePassword")
+    public String editPassword(@ModelAttribute Logger logger, HttpServletRequest request, Model model){
+        if(logger.isPasswordCorrect()) {
+            Cookie[] cookies = request.getCookies();
+            Long pesel = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        DataTokenReader reader = new DataTokenReader(signingKey);
+                        pesel = reader.readPesel(cookie.getValue());
+                        break;
+                    }
                 }
             }
+            doctorDtoService.changePassword(pesel, logger.getPassword());
+            return "redirect:/logouts";
+        } else {
+            setRoleToModel(model,request);
+            Cookie[] cookies = request.getCookies();
+            Long pesel=null;
+            if(cookies!=null){
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        DataTokenReader reader=new DataTokenReader(signingKey);
+                        pesel = reader.readPesel(cookie.getValue());
+                        break;
+                    }
+                }
+            }
+            DoctorDto doctorDto=doctorDtoService.getDoctorById(pesel).get();
+            Doctor doctor=new Doctor();
+            doctor.setPesel(doctorDto.getPesel());
+            doctor.setEmail(doctorDto.getEmail());
+            doctor.setPhoneNumber(doctorDto.getPhoneNumber());
+            doctor.setSurname(doctorDto.getSurname());
+            doctor.setName(doctorDto.getName());
+            doctor.setDateOfBirth(doctorDto.getDateOfBirth().toString());
+            model.addAttribute("doctor",doctor);
+            model.addAttribute("logger",new Logger());
+            return "edit_doctor";
         }
-        doctorDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logouts";
     }
 }

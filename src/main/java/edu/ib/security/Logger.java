@@ -27,4 +27,23 @@ public class Logger {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean isCorrect(){
+        if(login.equals("")){
+            password="";
+            return false;
+        }
+        if(password.equals("") || password.length()<5 || password.length()>10){
+            password="";
+            return false;
+        }
+        return true;
+    }
+    public boolean isPasswordCorrect(){
+        if(password.equals("") || password.length()<5 || password.length()>10){
+            password="";
+            return false;
+        }
+        return true;
+    }
 }

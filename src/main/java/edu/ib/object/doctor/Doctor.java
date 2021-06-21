@@ -96,4 +96,60 @@ public class Doctor {
     public void setSpecializations(String specializations) {
         this.specializations = specializations;
     }
+
+    public boolean isCorrect() {
+        if(name.equals("")){
+            password="";
+            return false;
+        }
+        if(surname.equals("")){
+            password="";
+            return false;
+        }
+        if(dateOfBirth == null){
+            password="";
+            return false;
+        }
+        if(password.equals("") || password.length()<5 || password.length()>10){
+            password="";
+            return false;
+        }
+        if(specializations.equals("")){
+            password = "";
+            return false;
+        }
+        if(phoneNumber == null){
+            password= "";
+            return false;
+        }
+        if(pesel==null || pesel>99999999999L){
+            password="";
+            return false;
+        }
+        return true;
+
+    }
+    public boolean isEditionCorrect() {
+        if(name.equals("")){
+            password="";
+            return false;
+        }
+        if(surname.equals("")){
+            password="";
+            return false;
+        }
+        if(dateOfBirth == null){
+            password="";
+            return false;
+        }
+        if(phoneNumber == null){
+            password= "";
+            return false;
+        }
+        if(pesel==null || pesel>99999999999L){
+            password="";
+            return false;
+        }
+        return true;
+    }
 }
