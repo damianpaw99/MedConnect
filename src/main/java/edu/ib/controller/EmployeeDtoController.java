@@ -52,11 +52,17 @@ public class EmployeeDtoController {
 
 
     @PostMapping("/employee/admin/registration")
-    public String createEmployee(@ModelAttribute Employee employee){
-        EmployeeDtoBuilder builder=new EmployeeDtoBuilder();
-        EmployeeDto employeeDto=builder.build(employee);
-        employeeDtoService.addEmployee(employeeDto);
-        return "redirect:/home";
+    public String createEmployee(@ModelAttribute Employee employee,Model model,HttpServletRequest request){
+        if(employee.isCorrect()) {
+            EmployeeDtoBuilder builder = new EmployeeDtoBuilder();
+            EmployeeDto employeeDto = builder.build(employee);
+            employeeDtoService.addEmployee(employeeDto);
+            return "redirect:/home";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("employee",employee);
+            return "registration_form_staff";
+        }
     }
 
     @GetMapping("/employee/menu")
@@ -89,8 +95,12 @@ public class EmployeeDtoController {
             }
         }
         model.addAttribute("role",role);
-        model.addAttribute("timetable",new Timetable());
-        appointmentService.addAppointmentsFromTimetable(timetable,employeePesel);
+        if(timetable.isCorrect()) {
+            model.addAttribute("timetable", new Timetable());
+            appointmentService.addAppointmentsFromTimetable(timetable, employeePesel);
+        } else {
+            model.addAttribute("timetable",timetable);
+        }
         return "timetable";
     }
 
@@ -132,9 +142,15 @@ public class EmployeeDtoController {
     }
 
     @PatchMapping("/employee/admin/editPatient")
-    public String editPatient(@ModelAttribute Patient patient){
-        patientDtoService.editPatient(patient);
-        return "redirect:/employee/admin/allPatients";
+    public String editPatient(@ModelAttribute Patient patient, Model model,HttpServletRequest request){
+        if(patient.isEditionCorrect()) {
+            patientDtoService.editPatient(patient);
+            return "redirect:/employee/admin/allPatients";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("patient",patient);
+            return "edit_patient_admin";
+        }
     }
 
 
@@ -146,9 +162,15 @@ public class EmployeeDtoController {
     }
 
     @PatchMapping("/employee/admin/editEmployee")
-    public String editEmployee(@ModelAttribute Employee employee){
-        employeeDtoService.editEmployee(employee);
-        return "redirect:/employee/admin/allEmployees";
+    public String editEmployee(@ModelAttribute Employee employee, Model model,HttpServletRequest request){
+        if(employee.isEditionCorrect()) {
+            employeeDtoService.editEmployee(employee);
+            return "redirect:/employee/admin/allEmployees";
+        } else {
+            setRoleToModel(model, request);
+            model.addAttribute("employee",employee);
+            return "edit_employee_admin";
+        }
 
     }
     @GetMapping("/employee/admin/editEmployee/{id}")
@@ -176,9 +198,15 @@ public class EmployeeDtoController {
     }
 
     @PatchMapping("/employee/admin/editDoctor")
-    public String editDoctor(@ModelAttribute Doctor doctor){
-        doctorDtoService.editDoctor(doctor);
-        return "redirect:/employee/admin/allDoctors";
+    public String editDoctor(@ModelAttribute Doctor doctor, Model model,HttpServletRequest request){
+        if(doctor.isEditionCorrect()) {
+            doctorDtoService.editDoctor(doctor);
+            return "redirect:/employee/admin/allDoctors";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("doctor",doctor);
+            return "edit_doctor_admin";
+        }
     }
 
     @GetMapping("/employee/admin/editDoctor/{id}")
@@ -219,30 +247,65 @@ public class EmployeeDtoController {
         employee.setSurname(employeeDto.getSurname());
         employee.setName(employeeDto.getName());
         employee.setDateOfBirth(employeeDto.getDateOfBirth().toString());
+        employee.setPosition(employeeDto.getPosition());
         model.addAttribute("employee",employee);
         model.addAttribute("logger",new Logger());
         return "edit_employee";
     }
     @PatchMapping("/employee/editData")
-    public String editData(@ModelAttribute Employee employee){
-        employeeDtoService.editEmployee(employee);
-        return "redirect:/employee/menu";
+    public String editData(@ModelAttribute Employee employee, Model model, HttpServletRequest request){
+        if(employee.isEditionCorrect()) {
+            employeeDtoService.editEmployee(employee);
+            return "redirect:/employee/menu";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("employee",employee);
+            model.addAttribute("logger",new Logger());
+            return "edit_employee";
+        }
     }
     @PutMapping("/employee/editPassword")
-    public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        Long pesel=null;
-        if(cookies!=null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    DataTokenReader reader=new DataTokenReader(signingKey);
-                    pesel = reader.readPesel(cookie.getValue());
-                    break;
+    public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request, Model model){
+        if(logger.isPasswordCorrect()) {
+            Cookie[] cookies = request.getCookies();
+            Long pesel = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        DataTokenReader reader = new DataTokenReader(signingKey);
+                        pesel = reader.readPesel(cookie.getValue());
+                        break;
+                    }
                 }
             }
+            employeeDtoService.changePassword(pesel, logger.getPassword());
+            return "redirect:/logouts";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("logger",new Logger());
+            Cookie[] cookies = request.getCookies();
+            Long pesel=null;
+            if(cookies!=null){
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        DataTokenReader reader=new DataTokenReader(signingKey);
+                        pesel = reader.readPesel(cookie.getValue());
+                        break;
+                    }
+                }
+            }
+            EmployeeDto employeeDto=employeeDtoService.getEmployeeById(pesel).get();
+            Employee employee=new Employee();
+            employee.setPesel(employeeDto.getPesel());
+            employee.setEmail(employeeDto.getEmail());
+            employee.setPhoneNumber(employeeDto.getPhoneNumber());
+            employee.setSurname(employeeDto.getSurname());
+            employee.setName(employeeDto.getName());
+            employee.setDateOfBirth(employeeDto.getDateOfBirth().toString());
+            employee.setPosition(employeeDto.getPosition());
+            model.addAttribute("employee",employee);
+            return "edit_employee";
         }
-        employeeDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logouts";
     }
 
     private void setRoleToModel(Model model, HttpServletRequest request) {

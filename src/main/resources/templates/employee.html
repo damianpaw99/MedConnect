@@ -58,7 +58,7 @@
         <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/createAppointments}">
             <button class="btn btn-primary" type="submit" style="width: 500px">Stwórz grafik</button>
         </form>
-        <form th:if="${role}!=null" action="#" th:action="@{/employee/admin/allAppointments}">
+        <form th:if="${role}=='ADMIN'" action="#" th:action="@{/employee/admin/allAppointments}">
             <button class="btn btn-primary" type="submit" style="width: 500px">Wszystkie wizyty</button>
         </form>
         <form th:if="${role}=='ADMIN'" action="#" th:action="@{/doctor/admin/registration}">

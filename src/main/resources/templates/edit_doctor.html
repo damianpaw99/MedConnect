@@ -99,7 +99,7 @@
         <form action="#" th:action="@{/doctor/changePassword}" th:object="${logger}" th:method="put">
             <label class="col-form-label mt-4" for="inputNewPassword">Nowe hasło</label>
             <input type="password" class="form-control" placeholder="Wprowadź nowe hasło" id="inputNewPassword"
-                   name="inputBirth" th:field="*{password}" >
+                   name="inputLoggerPassword" th:field="*{password}" >
             <div class="form-group d-grid gap-2" style="margin-top: 1.5em">
                 <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
             </div>

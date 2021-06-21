@@ -94,6 +94,9 @@ public class AppointmentService {
     public Iterable<FreeAppointmentView> getFreeViewAppointments(){
         return freeAppointmentViewRepository.findAll();
     }
+    public Iterable<FreeAppointmentView> getFreeViewAppointmentsByKeyword(String keyword){
+        return freeAppointmentViewRepository.findByKeyword(keyword);
+    }
 
     public Iterable<AllAppointmentView> getAllViewAppointments(){
         return allAppointmentsViewRepository.findAll();

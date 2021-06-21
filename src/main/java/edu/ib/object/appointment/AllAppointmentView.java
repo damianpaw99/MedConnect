@@ -100,4 +100,8 @@ public class AllAppointmentView {
         this.surname = surname;
     }
 
+    public boolean isCancellable(){
+        return LocalDateTime.now().toLocalDate().isBefore(dateTime.toLocalDate().minusDays(1L));
+    }
+
 }

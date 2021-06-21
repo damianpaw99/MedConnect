@@ -9,6 +9,7 @@ import edu.ib.object.patient.Patient;
 import edu.ib.object.patient.PatientDto;
 import edu.ib.object.patient.PatientDtoBuilder;
 import edu.ib.otherModels.ResultModel;
+import edu.ib.otherModels.Timetable;
 import edu.ib.security.DataTokenReader;
 import edu.ib.service.AppointmentService;
 import edu.ib.security.Logger;
@@ -25,6 +26,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -52,11 +54,26 @@ public class PatientDtoController {
     }
 
     @PostMapping("/patient/registration")
-    public String createPatient(@ModelAttribute Patient patient){
-        PatientDtoBuilder builder=new PatientDtoBuilder();
-        PatientDto patientDto=builder.build(patient);
-        patientDtoService.addPatient(patientDto);
-        return "redirect:/login";
+    public String createPatient(@ModelAttribute Patient patient, Model model, HttpServletRequest request){
+        if(patient.isCorrect()) {
+            PatientDtoBuilder builder = new PatientDtoBuilder();
+            PatientDto patientDto = builder.build(patient);
+            patientDtoService.addPatient(patientDto);
+            return "redirect:/login";
+        } else {
+            setRoleToModel(model,request);
+            model.addAttribute("patient",patient);
+            return "registration_form_patient";
+        }
+    }
+
+    @GetMapping("/patient/freeAppointments/filtered")
+    public String filterData(Model model, HttpServletRequest request, String keyword){
+        setRoleToModel(model,request);
+        Iterable<FreeAppointmentView> filteredFreeAppointments = appointmentService.getFreeViewAppointmentsByKeyword(keyword);
+        model.addAttribute("appointmentsList",filteredFreeAppointments);
+        return "freeAppointments";
+
     }
 
     @PostMapping("/patient/setAppointment/{id}")
@@ -217,12 +234,20 @@ public class PatientDtoController {
         return "edit_patient";
     }
     @PatchMapping("/patient/editData")
-    public String editData(@ModelAttribute Patient patient){
-        patientDtoService.editPatient(patient);
-        return "redirect:/patient/menu";
+    public String editData(@ModelAttribute Patient patient, Model model,HttpServletRequest request){
+        if(patient.isEditionCorrect()){
+            patientDtoService.editPatient(patient);
+            return "redirect:/patient/menu";
+        } else{
+            setRoleToModel(model,request);
+            model.addAttribute("patient",patient);
+            model.addAttribute("logger",new Logger());
+            return "edit_patient";
+        }
+
     }
     @PutMapping("/patient/changePassword")
-    public String editPassword(@ModelAttribute Logger logger,HttpServletRequest request){
+    public String editPassword(@ModelAttribute Logger logger, Model model,HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         Long pesel=null;
         if(cookies!=null){
@@ -234,8 +259,23 @@ public class PatientDtoController {
                 }
             }
         }
-        patientDtoService.changePassword(pesel,logger.getPassword());
-        return "redirect:/logouts";
+        if(logger.isPasswordCorrect()){
+            patientDtoService.changePassword(pesel,logger.getPassword());
+            return "redirect:/logouts";
+        } else {
+            setRoleToModel(model,request);
+            PatientDto patientDto=patientDtoService.getPatientById(pesel).get();
+            Patient patient=new Patient();
+            patient.setPesel(patientDto.getPesel());
+            patient.setEmail(patientDto.getEmail());
+            patient.setPhoneNumber(patientDto.getPhoneNumber());
+            patient.setSurname(patientDto.getSurname());
+            patient.setName(patientDto.getName());
+            patient.setDateOfBirth(patientDto.getDateOfBirth().toString());
+            model.addAttribute("patient",patient);
+            model.addAttribute("logger",new Logger());
+            return "edit_patient";
+        }
     }
 
     @GetMapping("/patient/addResult")
@@ -246,7 +286,7 @@ public class PatientDtoController {
     }
 
     @PostMapping(value="/patient/addResult", consumes = {"multipart/form-data"})
-    public String addResult(@ModelAttribute ResultModel result, @RequestParam("file") MultipartFile file, HttpServletRequest request){
+    public String addResult(@ModelAttribute ResultModel result, @RequestParam("file") MultipartFile file, HttpServletRequest request, Model model){
         Cookie [] cookies=request.getCookies();
         Long pesel=null;
         if(cookies!=null){
@@ -258,32 +298,37 @@ public class PatientDtoController {
                 }
             }
         }
+        if(result.isCorrect()) {
+            Result resultDto = new Result();
+            resultDto.setPatient(patientDtoService.findPatient(pesel));
+            resultDto.setTime(LocalDateTime.now());
+            resultDto.setType(result.getType());
+            resultDto.setDescription(result.getDescription());
+            try {
 
-        Result resultDto=new Result();
-        resultDto.setPatient(patientDtoService.findPatient(pesel));
-        resultDto.setTime(LocalDateTime.now());
-        resultDto.setType(result.getType());
-        resultDto.setDescription(result.getDescription());
-        try {
+                String uploadDir = "/uploads/";
+                String realPath = request.getServletContext().getRealPath(uploadDir);
+                //String realPath = "./photos";
+                String newFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".png";
+                File transferFile = new File(realPath + "/" + file.getOriginalFilename());
+                //file.transferTo(transferFile);
+                File save = new File("./src/main/resources/photos/" + file.getOriginalFilename());
+                if (!save.getName().endsWith(".png")) return "redirect:/error";
+                file.transferTo(save);
+                File rename = new File("./src/main/resources/photos/" + newFileName);
+                save.renameTo(rename);
+                resultDto.setPhoto(newFileName);
+            } catch (Exception e) {
 
-            String uploadDir = "/uploads/";
-            String realPath = request.getServletContext().getRealPath(uploadDir);
-            //String realPath = "./photos";
-            String newFileName=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+".png";
-            File transferFile = new File(realPath + "/" + file.getOriginalFilename());
-            //file.transferTo(transferFile);
-            File save = new File("./src/main/resources/photos/"+file.getOriginalFilename());
-            if(!save.getName().endsWith(".png")) return "redirect:/error";
-            file.transferTo(save);
-            File rename=new File("./src/main/resources/photos/"+newFileName);
-            save.renameTo(rename);
-            resultDto.setPhoto(newFileName);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return "redirect:/error";
+                e.printStackTrace();
+                return "redirect:/error";
+            }
+            resultService.addResult(resultDto);
+            return "redirect:/patient/menu";
+        } else {
+            setRoleToModel(model, request);
+            model.addAttribute("result",result);
+            return "add_result_patient";
         }
-        resultService.addResult(resultDto);
-        return "redirect:/patient/menu";
     }
 }

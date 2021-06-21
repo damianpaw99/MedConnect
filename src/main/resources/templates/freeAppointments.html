@@ -53,6 +53,15 @@
     </nav>
 </header>
 <main>
+    <div class="container" style="margin-bottom: 50px">
+        <form action="#" th:action="@{/patient/freeAppointments/filtered}" method="get">
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="txtSearch">Nazwisko lekarza/specjalizacja</label>
+                <input id="txtSearch" type="text" name="keyword">
+            </div>
+                <button type="submit" class="btn btn-primary">Filtruj</button>
+        </form>
+    </div>
     <table class="table table-hover">
         <tr>
             <td>Data i godzina</td>

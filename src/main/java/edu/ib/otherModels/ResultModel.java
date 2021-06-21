@@ -36,4 +36,14 @@ public class ResultModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isCorrect(){
+        if(type.equals("")){
+            return false;
+        }
+        if(description.equals("")){
+            return false;
+        }
+        return true;
+    }
 }

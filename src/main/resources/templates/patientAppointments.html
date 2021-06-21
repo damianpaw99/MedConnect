@@ -66,7 +66,7 @@
             <td th:text="${appointment.surname}"></td>
             <td>
                 <form action="#" th:action="@{/patient/cancelAppointment/__${appointment.id}__}" th:method="post">
-                    <button onclick="if(!(confirm('Możesz odwołać wizytę najpóźniej 24h przed jej terminem. Czy na pewno chcesz odwołać wizytę?'))) return false" type="submit" class="btn btn-danger">Odwołaj</button>
+                    <button th:disabled="${!appointment.isCancellable()}" onclick="if(!(confirm('Możesz odwołać wizytę najpóźniej 24h przed jej terminem. Czy na pewno chcesz odwołać wizytę?'))) return false" type="submit" class="btn btn-danger">Odwołaj</button>
                 </form>
             </td>
         </tr>

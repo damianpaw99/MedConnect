@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>MedConnect</title>
@@ -38,7 +38,7 @@
                     <li th:if="${role}=='DOCTOR'" class="nav-item">
                         <a class="nav-link active" href="/doctor/menu">Lekarz</a>
                     </li>
-                    <li  th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
+                    <li th:if="${role}=='RECEPCJONISTA' or ${role}=='ADMIN'" class="nav-item">
                         <a class="nav-link active" href="/employee/menu">Pracownik</a>
                     </li>
                 </ul>
@@ -67,8 +67,11 @@
             <td th:text="${appointment.surname}"></td>
             <td th:text="${appointment.patientPesel}"></td>
             <td>
-                <form action="#" th:action="@{/employee/admin/deleteAppointment/__${appointment.id}__}" th:method="delete">
-                    <button onclick="if(!(confirm('Czy na pewno chcesz usunąć wizytę?'))) return false" type="submit" class="btn btn-danger">Usuń</button>
+                <form action="#" th:action="@{/employee/admin/deleteAppointment/__${appointment.id}__}"
+                      th:method="delete">
+                    <button onclick="if(!(confirm('Czy na pewno chcesz usunąć wizytę?'))) return false" type="submit"
+                            class="btn btn-danger">Usuń
+                    </button>
                 </form>
             </td>
         </tr>
